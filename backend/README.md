@@ -1,0 +1,5 @@
+Backend
+
+Techstack
+- Golang
+- Firestore
