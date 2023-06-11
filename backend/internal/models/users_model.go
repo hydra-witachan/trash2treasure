@@ -6,8 +6,13 @@ type User struct {
 	BaseModel
 
 	Username string             `gorm:"column:username" json:"username"`
-	FullName string             `gorm:"full_name" json:"fullName"`
-	Email    string             `gorm:"email" json:"email"`
-	Password string             `gorm:"password" json:"-"` // don't allow password to ever be exported.
+	FullName string             `gorm:"column:full_name" json:"fullName"`
+	Email    string             `gorm:"column:email" json:"email"`
+	Password string             `gorm:"column:password" json:"-"` // don't allow password to ever be exported.
+	Address  string             `gorm:"column:address" json:"address"`
 	Role     constants.UserRole `gorm:"role" json:"role"`
+}
+
+func (User) TableName() string {
+	return "users"
 }
