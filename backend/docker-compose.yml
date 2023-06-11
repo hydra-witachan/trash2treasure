@@ -1,0 +1,11 @@
+services:
+  mariadb:
+    image: mariadb:10
+    restart: on-failure
+    environment:
+      MARIADB_USER: tuxidev
+      MARIADB_PASSWORD: hello123
+      MARIADB_ROOT_PASSWORD: hello123
+      MARIADB_DATABASE: todolist
+    ports:
+      - 3306:3306
