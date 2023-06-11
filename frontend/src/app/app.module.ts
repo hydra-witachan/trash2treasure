@@ -5,12 +5,14 @@ import { AppComponent } from './app.component';
 import { AuthComponent } from './auth/auth.component';
 import { TopUpComponent } from './top-up/top-up.component';
 import routes from './routes';
+import { FooterComponent } from './footer/footer.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     AuthComponent,
-    TopUpComponent
+    TopUpComponent,
+    FooterComponent
   ],
   imports: [
     BrowserModule,
