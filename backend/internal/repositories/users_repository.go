@@ -9,7 +9,7 @@ import (
 )
 
 type UsersRepository interface {
-	GetUser(id string) (user models.User, err error)
+	GetUser(params dtos.GetUserParams) (user models.User, err error)
 	Register(model models.User) (err error)
 	IsUserExists(params dtos.IsUserExistsParams) (isExists bool, err error)
 }
@@ -24,8 +24,16 @@ func NewUsersRepository(params UsersRepositoryParams) UsersRepository {
 	return &params
 }
 
-func (r *UsersRepositoryParams) GetUser(id string) (user models.User, err error) {
-	err = r.Gorm.First(&user, "id = ?", id).Error
+func (r *UsersRepositoryParams) GetUser(params dtos.GetUserParams) (user models.User, err error) {
+	query := r.Gorm
+	if params.ID != "" {
+		query.Where("id = ?", params.ID)
+	}
+	if params.Email != "" {
+		query.Where("email = ?", params.Email)
+	}
+
+	err = query.Find(&user).Error
 	return
 }
 

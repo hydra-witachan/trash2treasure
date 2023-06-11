@@ -19,4 +19,5 @@ func SetupRoutes(p RoutesParams) {
 
 	usersGroup.GET("/:id", p.Users.GetUser)
 	usersGroup.POST("/register", p.Users.Register)
+	usersGroup.POST("/login", p.Users.Login)
 }
