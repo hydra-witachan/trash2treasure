@@ -12,3 +12,7 @@ type User struct {
 	Address  string             `json:"address"`
 	Role     constants.UserRole `json:"role"`
 }
+
+func (User) TableName() string {
+	return "users"
+}

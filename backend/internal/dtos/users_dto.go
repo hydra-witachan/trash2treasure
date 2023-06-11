@@ -11,3 +11,8 @@ type RegisterUserReq struct {
 type GetUserReq struct {
 	UserID string `param:"id"`
 }
+
+type IsUserExistsParams struct {
+	Email    string
+	Username string
+}

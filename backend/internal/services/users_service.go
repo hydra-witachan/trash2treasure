@@ -3,6 +3,7 @@ package services
 import (
 	"errors"
 	"fmt"
+	"go-boilerplate/internal/constants"
 	"go-boilerplate/internal/dtos"
 	"go-boilerplate/internal/models"
 	"go-boilerplate/internal/repositories"
@@ -10,11 +11,13 @@ import (
 	"net/http"
 
 	"github.com/goava/di"
+	"golang.org/x/crypto/bcrypt"
 	"gorm.io/gorm"
 )
 
 type UsersService interface {
 	GetUser(params dtos.GetUserReq) (user models.User, err error)
+	Register(params dtos.RegisterUserReq) (err error)
 }
 
 type UsersServiceParams struct {
@@ -46,5 +49,41 @@ func (s *UsersServiceParams) GetUser(params dtos.GetUserReq) (user models.User, 
 		err = newErr
 	}
 
+	return
+}
+
+func (s *UsersServiceParams) Register(params dtos.RegisterUserReq) (err error) {
+	passBytes := []byte(params.Password)
+	hashedPassword, err := bcrypt.GenerateFromPassword(passBytes, constants.DefaultHashCost)
+	if err != nil {
+		return responses.NewError().
+			WithError(err).
+			WithMessage("Failed to hash password.").
+			WithCode(http.StatusInternalServerError)
+	}
+	params.Password = string(hashedPassword)
+
+	isExists, err := s.Users.IsUserExists(dtos.IsUserExistsParams{
+		Email:    params.Email,
+		Username: params.Username,
+	})
+	if err != nil {
+		return responses.NewError().
+			WithError(err).
+			WithMessage("Failed to check user existence.").
+			WithCode(http.StatusInternalServerError)
+	}
+	if isExists {
+		return responses.NewError().
+			WithMessage("User with this email or username has already been registered.").
+			WithCode(http.StatusBadRequest)
+	}
+
+	if err = s.Users.Register(params.User); err != nil {
+		err = responses.NewError().
+			WithError(err).
+			WithMessage("Failed to register new user.").
+			WithCode(http.StatusInternalServerError)
+	}
 	return
 }

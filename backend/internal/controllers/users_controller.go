@@ -12,6 +12,7 @@ import (
 
 type UsersController interface {
 	GetUser(c echo.Context) (err error)
+	Register(c echo.Context) (err error)
 }
 
 type UsersControllerParams struct {
@@ -41,5 +42,24 @@ func (h *UsersControllerParams) GetUser(c echo.Context) (err error) {
 		WithData(user).
 		WithError(err).
 		WithSuccessCode(http.StatusOK).
+		Send(c)
+}
+
+func (h *UsersControllerParams) Register(c echo.Context) (err error) {
+	var params dtos.RegisterUserReq
+
+	if err = c.Bind(&params); err != nil {
+		err = responses.NewError().
+			WithCode(http.StatusBadRequest).
+			WithError(err).
+			WithMessage("Failed to bind parameters")
+
+		return
+	}
+
+	err = h.Users.Register(params)
+	return responses.New().
+		WithError(err).
+		WithSuccessCode(http.StatusCreated).
 		Send(c)
 }
