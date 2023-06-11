@@ -16,6 +16,7 @@ type RoutesParams struct {
 
 func SetupRoutes(p RoutesParams) {
 	usersGroup := p.Echo.Group("users")
+	// itemsGroup := p.Echo.Group("items")
 
 	usersGroup.GET("/:id", p.Users.GetUser)
 }
