@@ -21,3 +21,17 @@ func GenerateJWTString(claims dtos.AuthClaims) (token string, err error) {
 	}
 	return
 }
+
+func ParseAndValidateJWT(token string) (claims dtos.AuthClaims, err error) {
+	_, err = jwt.ParseWithClaims(token, &claims, func(t *jwt.Token) (interface{}, error) {
+		return []byte(os.Getenv("JWT_SECRET")), nil
+	})
+	if err != nil {
+		err = responses.NewError().
+			WithError(err).
+			WithCode(http.StatusUnauthorized).
+			WithMessage("Failed to validate token.")
+	}
+
+	return
+}
