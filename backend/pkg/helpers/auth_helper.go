@@ -4,6 +4,7 @@ import (
 	"go-boilerplate/internal/dtos"
 	"go-boilerplate/pkg/responses"
 	"net/http"
+	"os"
 
 	"github.com/golang-jwt/jwt/v5"
 )
@@ -11,10 +12,10 @@ import (
 func GenerateJWTString(claims dtos.AuthClaims) (token string, err error) {
 	rawToken := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
 
-	token, err = rawToken.SigningString()
+	jwtSecret := []byte(os.Getenv("JWT_SECRET"))
+	token, err = rawToken.SignedString(jwtSecret)
 	if err != nil {
 		err = responses.NewError().
-			WithError(err).
 			WithCode(http.StatusInternalServerError).
 			WithMessage("Failed to sign JWT.")
 	}
