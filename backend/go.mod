@@ -5,6 +5,7 @@ go 1.20
 require (
 	github.com/amacneil/dbmate/v2 v2.4.0
 	github.com/goava/di v1.11.2
+	github.com/golang-jwt/jwt/v5 v5.0.0
 	github.com/joho/godotenv v1.5.1
 	github.com/labstack/echo/v4 v4.10.2
 	github.com/ztrue/tracerr v0.4.0
