@@ -85,7 +85,15 @@ func (s *UsersServiceParams) Register(params dtos.RegisterUserReq) (err error) {
 			WithCode(http.StatusBadRequest)
 	}
 
-	if err = s.Users.Register(params.User); err != nil {
+	newUser := models.User{
+		Username: params.Username,
+		FullName: params.FullName,
+		Email:    params.Email,
+		Address:  params.Address,
+		Role:     params.Role,
+		Password: params.Password,
+	}
+	if err = s.Users.Register(newUser); err != nil {
 		err = responses.NewError().
 			WithError(err).
 			WithMessage("Failed to register new user.").

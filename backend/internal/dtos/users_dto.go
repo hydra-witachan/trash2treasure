@@ -9,7 +9,8 @@ import (
 type RegisterUserReq struct {
 	models.User
 
-	ID string `json:"-"` // ignore inserting ID
+	ID       string `json:"-"` // ignore inserting ID
+	Password string `json:"password"`
 }
 
 type LoginUserReq struct {
