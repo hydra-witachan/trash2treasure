@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { DecimalPipe } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { AppComponent } from './app.component';
 import { AuthComponent } from './auth/auth.component';
@@ -18,7 +19,7 @@ import { FooterComponent } from './footer/footer.component';
     BrowserModule,
     RouterModule.forRoot(routes),
   ],
-  providers: [],
+  providers: [DecimalPipe],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
