@@ -6,6 +6,7 @@ import { TransactionSuccessComponent } from './transaction-success/transaction-s
 import { HomeCollectorComponent } from './home-collector/home-collector.component';
 import { HomeDonatorComponent } from './home-donator/home-donator.component';
 import { HomeGuestComponent } from './home-guest/home-guest.component';
+import { UploadItemComponent } from './upload-item/upload-item.component';
 
 const role: string | null = localStorage.getItem('role');
 const routes: Routes = [
@@ -19,8 +20,9 @@ const routes: Routes = [
 ];
 
 if (role === 'collector') {
-  routes.push({ path: 'home', component: HomeCollectorComponent });
   routes.push({ path: '', component: HomeCollectorComponent });
+  routes.push({ path: 'home', component: HomeCollectorComponent });
+  routes.push({ path: 'upload', component: UploadItemComponent });
 } else if (role === 'donator') {
   routes.push({ path: 'home', component: HomeDonatorComponent });
   routes.push({ path: '', component: HomeDonatorComponent });
