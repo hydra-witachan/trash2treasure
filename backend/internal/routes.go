@@ -2,6 +2,7 @@ package main
 
 import (
 	"go-boilerplate/internal/controllers"
+	"go-boilerplate/internal/middlewares"
 
 	"github.com/goava/di"
 	"github.com/labstack/echo/v4"
@@ -18,7 +19,7 @@ func SetupRoutes(p RoutesParams) {
 	usersGroup := p.Echo.Group("users")
 	// itemsGroup := p.Echo.Group("items")
 
-	usersGroup.GET("/:id", p.Users.GetUser)
+	usersGroup.GET("/:id", p.Users.GetUser, middlewares.AuthMiddleware)
 	usersGroup.POST("/register", p.Users.Register)
 	usersGroup.POST("/login", p.Users.Login)
 }
