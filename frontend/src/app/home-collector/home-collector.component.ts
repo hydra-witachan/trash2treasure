@@ -14,4 +14,3 @@ export class HomeCollectorComponent {
     this.router.navigate(['/upload']);
   }
 }
- 
