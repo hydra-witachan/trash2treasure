@@ -1,6 +1,6 @@
 -- migrate:up
 CREATE TABLE users (
-    id VARCHAR(36) NOT NULL DEFAULT UUID(),
+    id CHAR(36) NOT NULL DEFAULT UUID(),
 
     username VARCHAR(64) NOT NULL,
     full_name VARCHAR(256) NOT NULL,
