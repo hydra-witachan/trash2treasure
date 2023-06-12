@@ -6,7 +6,7 @@ import { Router } from '@angular/router';
 @Component({
   selector: 'app-confirmation-top-up',
   templateUrl: './confirmation-top-up.component.html',
-  styleUrls: ['./confirmation-top-up.component.css']
+  styleUrls: ['./confirmation-top-up.component.css'],
 })
 export class ConfirmationTopUpComponent {
   topUpPoint: any;
@@ -14,15 +14,19 @@ export class ConfirmationTopUpComponent {
   feeTopUp: any;
   formattedFeeTopUp: any;
 
-  constructor(private sharedService: MySharedService, private decimalPipe: DecimalPipe, private router: Router) {}
+  constructor(
+    private sharedService: MySharedService,
+    private decimalPipe: DecimalPipe,
+    private router: Router
+  ) {}
 
   ngOnInit() {
     this.topUpPoint = this.sharedService.getPointTopUp();
     this.formattedPoint = this.sharedService.getPointTopUpFormated();
     this.feeTopUp = this.sharedService.getFeePointTopUp();
     this.formattedFeeTopUp = this.decimalPipe.transform(this.feeTopUp, '1.0-3');
-    if(this.formattedFeeTopUp !== null) {
-      this.formattedFeeTopUp =  this.formattedFeeTopUp.replaceAll(',', '.')
+    if (this.formattedFeeTopUp !== null) {
+      this.formattedFeeTopUp = this.formattedFeeTopUp.replaceAll(',', '.');
     }
   }
 
