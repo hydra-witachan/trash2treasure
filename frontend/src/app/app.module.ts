@@ -9,7 +9,9 @@ import routes from './routes';
 import { FooterComponent } from './footer/footer.component';
 import { ConfirmationTopUpComponent } from './confirmation-top-up/confirmation-top-up.component';
 import { TransactionSuccessComponent } from './transaction-success/transaction-success.component';
-import { HomeComponent } from './home/home.component';
+import { HomeCollectorComponent } from './home-collector/home-collector.component';
+import { HomeDonatorComponent } from './home-donator/home-donator.component';
+import { HomeGuestComponent } from './home-guest/home-guest.component';
 
 @NgModule({
   declarations: [
@@ -19,7 +21,9 @@ import { HomeComponent } from './home/home.component';
     FooterComponent,
     ConfirmationTopUpComponent,
     TransactionSuccessComponent,
-    HomeComponent
+    HomeCollectorComponent,
+    HomeDonatorComponent,
+    HomeGuestComponent
   ],
   imports: [
     BrowserModule,
