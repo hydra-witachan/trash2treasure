@@ -7,7 +7,7 @@ import { DecimalPipe } from '@angular/common';
   styleUrls: ['./top-up.component.css']
 })
 export class TopUpComponent {
-  point = 50000;
+  point = 0;
   formattedPoint: string | null;
   topUp = [
     {topUpPoint: 10000, feeTopUp: 10000},
@@ -19,7 +19,7 @@ export class TopUpComponent {
     {topUpPoint: 300000, feeTopUp: 300000},
     {topUpPoint: 400000, feeTopUp: 400000},
     {topUpPoint: 500000, feeTopUp: 500000},
-  ]
+  ];
 
   constructor(private decimalPipe: DecimalPipe) {
     this.formattedPoint = this.decimalPipe.transform(this.point, '1.0-3');
@@ -28,12 +28,33 @@ export class TopUpComponent {
     }
   }
 
+  handleInputChange(value: string) {
+    // Perform actions or updates based on the changed input value
+    console.log('Input value changed:', value);
+
+    let newPoint = parseInt(value);
+    this.point = newPoint;
+    this.formattedPoint = this.decimalPipe.transform(this.point, '1.0-3');
+    if(this.formattedPoint !== null) {
+      this.formattedPoint =  this.formattedPoint.replaceAll(',', '.')
+    }
+
+  }
+
   updatePoint(value: number) {
-    console.log(value);
     this.point = value;
     this.formattedPoint = this.decimalPipe.transform(this.point, '1.0-3');
     if(this.formattedPoint !== null) {
       this.formattedPoint =  this.formattedPoint.replaceAll(',', '.')
     }
+  }
+
+  onInputChange(event: any) {
+    // Access the updated value of the input field
+    const newValue = event.target.value;
+  
+    // Perform any logic or updates based on the new value
+    // For example, you can update other variables or call functions
+    console.log('New value:', newValue);
   }
 }
