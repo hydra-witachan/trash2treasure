@@ -57,4 +57,8 @@ export class TopUpComponent {
     // For example, you can update other variables or call functions
     console.log('New value:', newValue);
   }
+
+  submit() {
+    console.log("HELLO");
+  }
 }
