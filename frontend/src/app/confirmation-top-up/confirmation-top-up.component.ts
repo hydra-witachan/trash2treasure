@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { MySharedService } from '../shared/my-shared-service.service';
 import { DecimalPipe } from '@angular/common';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-confirmation-top-up',
@@ -13,7 +14,7 @@ export class ConfirmationTopUpComponent {
   feeTopUp: any;
   formattedFeeTopUp: any;
 
-  constructor(private sharedService: MySharedService, private decimalPipe: DecimalPipe) {}
+  constructor(private sharedService: MySharedService, private decimalPipe: DecimalPipe, private router: Router) {}
 
   ngOnInit() {
     this.topUpPoint = this.sharedService.getPointTopUp();
@@ -26,6 +27,6 @@ export class ConfirmationTopUpComponent {
   }
 
   submit() {
-    console.log("HELLO");
+    this.router.navigate(['/top-up/confirmation/success']);
   }
 }

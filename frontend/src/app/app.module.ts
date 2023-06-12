@@ -8,6 +8,7 @@ import { TopUpComponent } from './top-up/top-up.component';
 import routes from './routes';
 import { FooterComponent } from './footer/footer.component';
 import { ConfirmationTopUpComponent } from './confirmation-top-up/confirmation-top-up.component';
+import { TransactionSuccessComponent } from './transaction-success/transaction-success.component';
 
 @NgModule({
   declarations: [
@@ -15,7 +16,8 @@ import { ConfirmationTopUpComponent } from './confirmation-top-up/confirmation-t
     AuthComponent,
     TopUpComponent,
     FooterComponent,
-    ConfirmationTopUpComponent
+    ConfirmationTopUpComponent,
+    TransactionSuccessComponent
   ],
   imports: [
     BrowserModule,
