@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { DecimalPipe } from '@angular/common';
+import { Router } from '@angular/router';
+import { MySharedService } from '../shared/my-shared-service.service';
 
 @Component({
   selector: 'app-top-up',
@@ -8,7 +10,7 @@ import { DecimalPipe } from '@angular/common';
 })
 export class TopUpComponent {
   point = 0;
-  formattedPoint: string | null;
+  formattedPoint!: string | null;
   topUp = [
     {topUpPoint: 10000, feeTopUp: 10000},
     {topUpPoint: 25000, feeTopUp: 25000},
@@ -21,7 +23,7 @@ export class TopUpComponent {
     {topUpPoint: 500000, feeTopUp: 500000},
   ];
 
-  constructor(private decimalPipe: DecimalPipe) {
+  constructor(private decimalPipe: DecimalPipe, private router: Router, private sharedService: MySharedService) {
     this.formattedPoint = this.decimalPipe.transform(this.point, '1.0-3');
     if(this.formattedPoint !== null) {
       this.formattedPoint =  this.formattedPoint.replaceAll(',', '.')
@@ -29,16 +31,12 @@ export class TopUpComponent {
   }
 
   handleInputChange(value: string) {
-    // Perform actions or updates based on the changed input value
-    console.log('Input value changed:', value);
-
     let newPoint = parseInt(value);
     this.point = newPoint;
     this.formattedPoint = this.decimalPipe.transform(this.point, '1.0-3');
     if(this.formattedPoint !== null) {
       this.formattedPoint =  this.formattedPoint.replaceAll(',', '.')
     }
-
   }
 
   updatePoint(value: number) {
@@ -49,16 +47,18 @@ export class TopUpComponent {
     }
   }
 
-  onInputChange(event: any) {
-    // Access the updated value of the input field
-    const newValue = event.target.value;
-  
-    // Perform any logic or updates based on the new value
-    // For example, you can update other variables or call functions
-    console.log('New value:', newValue);
-  }
-
   submit() {
-    console.log("HELLO");
+    let newPoint = this.topUp.filter(item => item.topUpPoint === this.point);
+    if(newPoint.length === 0) { // handle awal aja
+      newPoint = [{
+        topUpPoint: 0,
+        feeTopUp: 0,
+      }];
+    }
+
+    this.sharedService.setPointTopUp(this.point);
+    this.sharedService.setFeePointTopUp(newPoint[0].feeTopUp);
+    this.sharedService.setPointTopUpFormated(this.formattedPoint!);
+    this.router.navigate(['/top-up/confirmation']);
   }
 }

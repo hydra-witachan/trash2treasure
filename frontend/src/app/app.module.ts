@@ -7,13 +7,15 @@ import { AuthComponent } from './auth/auth.component';
 import { TopUpComponent } from './top-up/top-up.component';
 import routes from './routes';
 import { FooterComponent } from './footer/footer.component';
+import { ConfirmationTopUpComponent } from './confirmation-top-up/confirmation-top-up.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     AuthComponent,
     TopUpComponent,
-    FooterComponent
+    FooterComponent,
+    ConfirmationTopUpComponent
   ],
   imports: [
     BrowserModule,
