@@ -18,12 +18,13 @@ func AuthMiddleware(next echo.HandlerFunc) echo.HandlerFunc {
 				WithError(constants.ErrNotLoggedIn).
 				WithCode(http.StatusUnauthorized).
 				WithMessage("You don't have the permission.")
-
 			return
 		}
 
 		authHeader := authHeaderList[0]
-		if !strings.HasPrefix(authHeader, "Bearer ") {
+		bearerPrefix := "Bearer "
+
+		if !strings.HasPrefix(authHeader, bearerPrefix) {
 			err = responses.NewError().
 				WithError(constants.ErrNotLoggedIn).
 				WithCode(http.StatusUnauthorized).
@@ -31,7 +32,7 @@ func AuthMiddleware(next echo.HandlerFunc) echo.HandlerFunc {
 			return
 		}
 
-		token := strings.Replace(authHeader, "Bearer ", "", 1)
+		token := strings.Replace(authHeader, bearerPrefix, "", 1)
 		claims, err := helpers.ParseAndValidateJWT(token)
 		if err != nil {
 			return
