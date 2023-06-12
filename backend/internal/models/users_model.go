@@ -11,6 +11,7 @@ type User struct {
 	Password string             `json:"-"` // don't allow password to ever be exported.
 	Address  string             `json:"address"`
 	Role     constants.UserRole `json:"role"`
+	Points   int64              `json:"points"`
 }
 
 func (User) TableName() string {
