@@ -12,6 +12,7 @@ import (
 
 type ItemsService interface {
 	CreateItem(params dtos.CreateItemReq,  claims dtos.AuthClaims) (err error)
+	GetItemByID(params dtos.GetItemByIDReq) (item models.Item, err error)
 }
 
 type ItemsServiceParams struct {
@@ -45,4 +46,16 @@ func (s *ItemsServiceParams) CreateItem(params dtos.CreateItemReq, claims dtos.A
 	}
 
 	return err
+}
+
+func (s *ItemsServiceParams) GetItemByID(params dtos.GetItemByIDReq) (item models.Item, err error) {
+	item, err = s.Items.GetItemByID(params.ItemID)
+	if err != nil {
+		err = responses.NewError().
+			WithError(err).
+			WithMessage(err.Error()).
+			WithCode(http.StatusInternalServerError)
+	}
+
+	return
 }

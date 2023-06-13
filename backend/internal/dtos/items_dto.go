@@ -7,3 +7,7 @@ type CreateItemReq struct {
 	NeededAmount	int     `json:"neededAmount"`
     ImageURL        string  `json:"imageUrl"`
 }
+
+type GetItemByIDReq struct {
+	ItemID	string	`param:"id"`
+}

@@ -18,11 +18,12 @@ type RoutesParams struct {
 
 func SetupRoutes(p RoutesParams) {
 	usersGroup := p.Echo.Group("users")
-	itemsGroup := p.Echo.Group("items")
 
 	usersGroup.GET("/:id", p.Users.GetUser, middlewares.AuthMiddleware)
 	usersGroup.POST("/register", p.Users.Register)
 	usersGroup.POST("/login", p.Users.Login)
 
+	itemsGroup := p.Echo.Group("items")
 	itemsGroup.POST("", p.Items.CreateItem, middlewares.AuthMiddleware)
+	itemsGroup.GET("/:id", p.Items.GetItemByID)
 }
