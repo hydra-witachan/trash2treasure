@@ -44,3 +44,9 @@ type AuthClaims struct {
 	Username string `json:"username"`
 	FullName string `json:"fullName"`
 }
+
+type UserTopupReq struct {
+	Points	int		`json:"points"`
+	Fee		int64	`json:"fee"`
+	Method	string	`json:"method"`
+}

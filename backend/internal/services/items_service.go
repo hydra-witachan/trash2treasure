@@ -11,7 +11,7 @@ import (
 )
 
 type ItemsService interface {
-	CreateItem(params dtos.CreateItemReq,  claims dtos.AuthClaims) (err error)
+	CreateItem(params dtos.CreateItemReq, claims dtos.AuthClaims) (err error)
 	GetItemByID(params dtos.GetItemByIDReq) (item models.Item, err error)
 }
 
@@ -33,6 +33,7 @@ func (s *ItemsServiceParams) CreateItem(params dtos.CreateItemReq, claims dtos.A
 			WithError(err).
 			WithMessage(err.Error()).
 			WithCode(http.StatusInternalServerError)
+		return
 	}
 
 	if user.Points < int64(params.NeededAmount) * int64(params.PointsPerItem) {
