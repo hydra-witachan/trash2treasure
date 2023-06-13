@@ -8,7 +8,7 @@ import (
 )
 
 type ItemsRepository interface {
-	CreateItem(item models.Item) (err error)
+	CreateItem(item *models.Item) (err error)
 	GetItem(id string) (item models.Item, err error)
 }
 
@@ -22,8 +22,8 @@ func NewItemsRepository(params ItemsRepositoryParams) ItemsRepository {
 	return &params
 }
 
-func (r *ItemsRepositoryParams) CreateItem(item models.Item) (err error) {
-	err = r.Gorm.Create(&item).Error
+func (r *ItemsRepositoryParams) CreateItem(item *models.Item) (err error) {
+	err = r.Gorm.Create(item).Error
 	return
 }
 

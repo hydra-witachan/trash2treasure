@@ -5,7 +5,7 @@ type CreateItemReq struct {
 	Description  string `json:"description"`
 	Points       int    `json:"points"`
 	NeededAmount int    `json:"neededAmount"`
-	ImageURL     string `json:"imageUrl"`
+	EncodedImage string `json:"encodedImage"`
 }
 
 type GetItemReq struct {

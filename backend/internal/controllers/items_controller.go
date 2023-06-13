@@ -1,7 +1,6 @@
 package controllers
 
 import (
-	"go-boilerplate/internal/constants"
 	"go-boilerplate/internal/dtos"
 	"go-boilerplate/internal/services"
 	"go-boilerplate/pkg/responses"
@@ -39,9 +38,7 @@ func (h *ItemsControllerParams) CreateItem(c echo.Context) (err error) {
 		return
 	}
 
-	claims := c.Get(constants.AuthClaimsKey).(dtos.AuthClaims)
-
-	err = h.Items.CreateItem(params, claims)
+	err = h.Items.CreateItem(c.Request().Context(), params)
 	return responses.New().
 		WithError(err).
 		WithSuccessCode(http.StatusCreated).

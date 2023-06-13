@@ -1,10 +1,12 @@
 package services
 
 import (
+	"context"
 	"errors"
 	"go-boilerplate/internal/dtos"
 	"go-boilerplate/internal/models"
 	"go-boilerplate/internal/repositories"
+	"go-boilerplate/pkg/helpers"
 	"go-boilerplate/pkg/responses"
 	"net/http"
 
@@ -13,7 +15,7 @@ import (
 )
 
 type ItemsService interface {
-	CreateItem(params dtos.CreateItemReq, claims dtos.AuthClaims) (err error)
+	CreateItem(ctx context.Context, params dtos.CreateItemReq) (err error)
 	GetItem(params dtos.GetItemReq) (item models.Item, err error)
 }
 
@@ -27,19 +29,24 @@ func NewItemsService(params ItemsServiceParams) ItemsService {
 	return &params
 }
 
-func (s *ItemsServiceParams) CreateItem(params dtos.CreateItemReq, claims dtos.AuthClaims) (err error) {
+func (s *ItemsServiceParams) CreateItem(ctx context.Context, params dtos.CreateItemReq) (err error) {
+	claims, err := helpers.GetAuthClaims(ctx)
+	if err != nil {
+		return
+	}
+
 	newItem := models.Item{
 		AuthorID:        claims.ID,
 		AuthorName:      claims.FullName,
 		ItemName:        params.ItemName,
 		Description:     params.Description,
-		Points:          0,
+		Points:          params.Points,
 		ImageURL:        "https://google.com",
 		NeededAmount:    params.NeededAmount,
 		FullfiledAmount: 0,
 	}
 
-	err = s.Items.CreateItem(newItem)
+	err = s.Items.CreateItem(&newItem)
 	if err != nil {
 		err = responses.NewError().
 			WithError(err).
