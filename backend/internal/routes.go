@@ -25,4 +25,5 @@ func SetupRoutes(p RoutesParams) {
 	usersGroup.POST("/login", p.Users.Login)
 
 	itemsGroup.POST("", p.Items.CreateItem, middlewares.AuthMiddleware)
+	itemsGroup.GET("/:id", p.Items.GetItem)
 }

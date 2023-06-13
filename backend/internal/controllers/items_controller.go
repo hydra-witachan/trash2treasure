@@ -13,6 +13,7 @@ import (
 
 type ItemsController interface {
 	CreateItem(c echo.Context) (err error)
+	GetItem(c echo.Context) (err error)
 }
 
 type ItemsControllerParams struct {
@@ -42,7 +43,27 @@ func (h *ItemsControllerParams) CreateItem(c echo.Context) (err error) {
 
 	err = h.Items.CreateItem(params, claims)
 	return responses.New().
-	WithError(err).
-	WithSuccessCode(http.StatusCreated).
-	Send(c)
+		WithError(err).
+		WithSuccessCode(http.StatusCreated).
+		Send(c)
+}
+
+func (h *ItemsControllerParams) GetItem(c echo.Context) (err error) {
+	var params dtos.GetItemReq
+
+	if err = c.Bind(&params); err != nil {
+		err = responses.NewError().
+			WithCode(http.StatusBadRequest).
+			WithError(err).
+			WithMessage("Failed to bind parameters")
+
+		return
+	}
+
+	res, err := h.Items.GetItem(params)
+	return responses.New().
+		WithData(res).
+		WithError(err).
+		WithSuccessCode(http.StatusOK).
+		Send(c)
 }
