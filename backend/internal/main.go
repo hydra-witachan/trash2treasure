@@ -26,6 +26,7 @@ func ProvideDIContainer() (container *di.Container, err error) {
 	container, err = di.New(
 		di.Provide(databases.NewMariaDB),
 		di.Provide(databases.NewMigration),
+		di.Provide(databases.NewFirebaseBucket),
 		di.Provide(echo.New),
 
 		// Include controllers, services, and repositories.
