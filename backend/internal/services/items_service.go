@@ -1,6 +1,9 @@
 package services
 
 import (
+	"context"
+	"encoding/base64"
+	"errors"
 	"go-boilerplate/internal/dtos"
 	"go-boilerplate/internal/models"
 	"go-boilerplate/internal/repositories"
@@ -8,10 +11,11 @@ import (
 	"net/http"
 
 	"github.com/goava/di"
+	"gorm.io/gorm"
 )
 
 type ItemsService interface {
-	CreateItem(params dtos.CreateItemReq, claims dtos.AuthClaims) (err error)
+	CreateItem(ctx context.Context, claims dtos.AuthClaims, params dtos.CreateItemReq) (newItem models.Item, err error)
 	GetItemByID(params dtos.GetItemByIDReq) (item models.Item, err error)
 }
 
@@ -26,8 +30,8 @@ func NewItemsService(params ItemsServiceParams) ItemsService {
 	return &params
 }
 
-func (s *ItemsServiceParams) CreateItem(params dtos.CreateItemReq, claims dtos.AuthClaims) (err error) {
-	user, err := s.Users.GetUser(dtos.GetUserParams{ ID: claims.ID })
+func (s *ItemsServiceParams) CreateItem(ctx context.Context, claims dtos.AuthClaims, params dtos.CreateItemReq) (newItem models.Item, err error) {
+	user, err := s.Users.GetUser(dtos.GetUserParams{ID: claims.ID})
 	if err != nil {
 		err = responses.NewError().
 			WithError(err).
@@ -36,7 +40,29 @@ func (s *ItemsServiceParams) CreateItem(params dtos.CreateItemReq, claims dtos.A
 		return
 	}
 
-	if user.Points < int64(params.NeededAmount) * int64(params.PointsPerItem) {
+	imageData, err := base64.StdEncoding.DecodeString(params.EncodedImage)
+	if err != nil {
+		err = responses.NewError().
+			WithCode(http.StatusBadRequest).
+			WithError(err).
+			WithMessage("Cannot decode image from base64.")
+		return
+	}
+
+	contentType := http.DetectContentType(imageData)
+	acceptableTypeMap := map[string]string{
+		"image/png":  "png",
+		"image/jpeg": "jpg",
+	}
+	imageFileType, ok := acceptableTypeMap[contentType]
+	if !ok {
+		err = responses.NewError().
+			WithCode(http.StatusBadRequest).
+			WithMessage("Image data isn't acceptable, make sure it's either PNG or JPEG.")
+		return
+	}
+
+	if user.Points < int64(params.NeededAmount)*int64(params.PointsPerItem) {
 		err = responses.NewError().
 			WithError(err).
 			WithMessage("not enough point users").
@@ -44,35 +70,63 @@ func (s *ItemsServiceParams) CreateItem(params dtos.CreateItemReq, claims dtos.A
 		return
 	}
 
-	newItem := models.Item{
-		AuthorID: claims.ID,
-		AuthorName: claims.FullName,
-		ItemName: params.ItemName,
-		Description: params.Description,
-		Points: params.PointsPerItem,
-		ImageURL: params.ImageURL,
-		NeededAmount: params.NeededAmount,
+	newItem = models.Item{
+		AuthorID:        claims.ID,
+		AuthorName:      claims.FullName,
+		ItemName:        params.ItemName,
+		Description:     params.Description,
+		Points:          params.PointsPerItem,
+		NeededAmount:    params.NeededAmount,
 		FullfiledAmount: 0,
+		ImageURL:        "", // image url will be filled after it's uploaded.
 	}
 
-	err = s.Items.CreateItem(newItem);
+	err = s.Items.CreateItem(&newItem)
 	if err != nil {
 		err = responses.NewError().
 			WithError(err).
-			WithMessage(err.Error()).
+			WithMessage("Failed to create new item.").
 			WithCode(http.StatusInternalServerError)
 	}
 
-	return err
+	imageUrl, err := s.Items.UploadItemImage(ctx, dtos.UploadItemImageParams{
+		ItemID:    newItem.ID,
+		FileType:  imageFileType,
+		ImageData: imageData,
+	})
+	if err != nil {
+		err = responses.NewError().
+			WithError(err).
+			WithMessage("Failed to upload item image.").
+			WithCode(http.StatusInternalServerError)
+		return
+	}
+
+	newItem.ImageURL = imageUrl
+	if err = s.Items.UpdateItem(&newItem); err != nil {
+		err = responses.NewError().
+			WithError(err).
+			WithMessage("Failed to update item to have image URL.").
+			WithCode(http.StatusInternalServerError)
+	}
+	return
 }
 
 func (s *ItemsServiceParams) GetItemByID(params dtos.GetItemByIDReq) (item models.Item, err error) {
 	item, err = s.Items.GetItemByID(params.ItemID)
 	if err != nil {
-		err = responses.NewError().
+		newErr := responses.NewError().
 			WithError(err).
-			WithMessage(err.Error()).
-			WithCode(http.StatusInternalServerError)
+			WithCode(http.StatusInternalServerError).
+			WithMessage("Failed to get item.")
+
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			newErr.
+				WithCode(http.StatusNotFound).
+				WithMessage("Cannot find item.")
+		}
+
+		err = newErr
 	}
 
 	return
