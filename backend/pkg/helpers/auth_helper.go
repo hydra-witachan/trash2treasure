@@ -1,7 +1,6 @@
 package helpers
 
 import (
-	"context"
 	"errors"
 	"go-boilerplate/internal/constants"
 	"go-boilerplate/internal/dtos"
@@ -10,6 +9,7 @@ import (
 	"os"
 
 	"github.com/golang-jwt/jwt/v5"
+	"github.com/labstack/echo/v4"
 )
 
 func GenerateJWTString(claims dtos.AuthClaims) (token string, err error) {
@@ -39,8 +39,8 @@ func ParseAndValidateJWT(token string) (claims dtos.AuthClaims, err error) {
 	return
 }
 
-func GetAuthClaims(ctx context.Context) (claims dtos.AuthClaims, err error) {
-	claims, ok := ctx.Value(constants.AuthClaimsKey).(dtos.AuthClaims)
+func GetAuthClaims(ctx echo.Context) (claims dtos.AuthClaims, err error) {
+	claims, ok := ctx.Get(constants.AuthClaimsKey).(dtos.AuthClaims)
 	if !ok {
 		err = responses.NewError().
 			WithCode(http.StatusInternalServerError).

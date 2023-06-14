@@ -11,3 +11,9 @@ type CreateItemReq struct {
 type GetItemReq struct {
 	ItemID string `param:"id"`
 }
+
+type UploadItemImageParams struct {
+	ItemID    string
+	FileType  string
+	ImageData []byte
+}
