@@ -168,6 +168,7 @@ func (s *UsersServiceParams) UserTopup(params dtos.UserTopupReq, claims dtos.Aut
 			WithError(err).
 			WithMessage("user role is not a collector").
 			WithCode(http.StatusBadRequest)
+		return
 	}
 
 	user.Points += int64(params.Points)
