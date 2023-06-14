@@ -22,6 +22,8 @@ func SetupRoutes(p RoutesParams) {
 	usersGroup.POST("/register", p.Users.Register)
 	usersGroup.POST("/login", p.Users.Login)
 	usersGroup.PATCH("/topup", p.Users.UserTopup, middlewares.AuthMiddleware)
+	usersGroup.POST("/redeem", p.Users.RedeemPoints, middlewares.AuthMiddleware)
+	usersGroup.GET("/redeem-exchange-rate", p.Users.GetRedeemExchangeRate)
 
 	itemsGroup := p.Echo.Group("items")
 	itemsGroup.POST("", p.Items.CreateItem, middlewares.AuthMiddleware)

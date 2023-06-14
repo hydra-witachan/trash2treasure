@@ -46,7 +46,15 @@ type AuthClaims struct {
 }
 
 type UserTopupReq struct {
-	Points	int		`json:"points"`
-	Fee		int64	`json:"fee"`
-	Method	string	`json:"method"`
+	Points int    `json:"points"`
+	Fee    int64  `json:"fee"`
+	Method string `json:"method"`
+}
+
+type RedeemPointsReq struct {
+	PointsToExchange int64 `json:"pointsToExchange"`
+}
+
+type RedeemPointsRes struct {
+	MoneyReceived int64 `json:"moneyReceived"`
 }
