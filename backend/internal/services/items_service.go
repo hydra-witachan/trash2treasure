@@ -15,14 +15,15 @@ import (
 )
 
 type ItemsService interface {
-	CreateItem(ctx context.Context, claims dtos.AuthClaims, params dtos.CreateItemReq) (item models.Item, err error)
-	GetItem(params dtos.GetItemReq) (item models.Item, err error)
+	CreateItem(ctx context.Context, claims dtos.AuthClaims, params dtos.CreateItemReq) (newItem models.Item, err error)
+	GetItemByID(params dtos.GetItemByIDReq) (item models.Item, err error)
 }
 
 type ItemsServiceParams struct {
 	di.Inject
 
 	Items repositories.ItemsRepository
+	Users repositories.UsersRepository
 }
 
 func NewItemsService(params ItemsServiceParams) ItemsService {
@@ -30,6 +31,15 @@ func NewItemsService(params ItemsServiceParams) ItemsService {
 }
 
 func (s *ItemsServiceParams) CreateItem(ctx context.Context, claims dtos.AuthClaims, params dtos.CreateItemReq) (newItem models.Item, err error) {
+	user, err := s.Users.GetUser(dtos.GetUserParams{ID: claims.ID})
+	if err != nil {
+		err = responses.NewError().
+			WithError(err).
+			WithMessage(err.Error()).
+			WithCode(http.StatusInternalServerError)
+		return
+	}
+
 	imageData, err := base64.StdEncoding.DecodeString(params.EncodedImage)
 	if err != nil {
 		err = responses.NewError().
@@ -44,7 +54,6 @@ func (s *ItemsServiceParams) CreateItem(ctx context.Context, claims dtos.AuthCla
 		"image/png":  "png",
 		"image/jpeg": "jpg",
 	}
-
 	imageFileType, ok := acceptableTypeMap[contentType]
 	if !ok {
 		err = responses.NewError().
@@ -53,15 +62,23 @@ func (s *ItemsServiceParams) CreateItem(ctx context.Context, claims dtos.AuthCla
 		return
 	}
 
+	if user.Points < int64(params.NeededAmount)*int64(params.PointsPerItem) {
+		err = responses.NewError().
+			WithError(err).
+			WithMessage("not enough point users").
+			WithCode(http.StatusBadRequest)
+		return
+	}
+
 	newItem = models.Item{
 		AuthorID:        claims.ID,
 		AuthorName:      claims.FullName,
 		ItemName:        params.ItemName,
 		Description:     params.Description,
-		Points:          params.Points,
+		Points:          params.PointsPerItem,
 		NeededAmount:    params.NeededAmount,
-		ImageURL:        "",
 		FullfiledAmount: 0,
+		ImageURL:        "", // image url will be filled after it's uploaded.
 	}
 
 	err = s.Items.CreateItem(&newItem)
@@ -95,8 +112,8 @@ func (s *ItemsServiceParams) CreateItem(ctx context.Context, claims dtos.AuthCla
 	return
 }
 
-func (s *ItemsServiceParams) GetItem(params dtos.GetItemReq) (item models.Item, err error) {
-	item, err = s.Items.GetItem(params.ItemID)
+func (s *ItemsServiceParams) GetItemByID(params dtos.GetItemByIDReq) (item models.Item, err error) {
+	item, err = s.Items.GetItemByID(params.ItemID)
 	if err != nil {
 		newErr := responses.NewError().
 			WithError(err).

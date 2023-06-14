@@ -17,7 +17,7 @@ import (
 type ItemsRepository interface {
 	CreateItem(item *models.Item) (err error)
 	UpdateItem(item *models.Item) (err error)
-	GetItem(id string) (item models.Item, err error)
+	GetItemByID(id string) (item models.Item, err error)
 	UploadItemImage(ctx context.Context, params dtos.UploadItemImageParams) (imageUrl string, err error)
 }
 
@@ -42,11 +42,6 @@ func (r *ItemsRepositoryParams) UpdateItem(item *models.Item) (err error) {
 	return
 }
 
-func (r *ItemsRepositoryParams) GetItem(id string) (item models.Item, err error) {
-	err = r.Gorm.First(&item, "id = ?", id).Error
-	return
-}
-
 func (r *ItemsRepositoryParams) UploadItemImage(ctx context.Context, params dtos.UploadItemImageParams) (imageUrl string, err error) {
 	outputFileName := fmt.Sprintf("items/%s.%s", params.ItemID, params.FileType)
 
@@ -65,5 +60,10 @@ func (r *ItemsRepositoryParams) UploadItemImage(ctx context.Context, params dtos
 		os.Getenv("FIREBASE_BUCKET"),
 		url.PathEscape(outputFileName),
 	)
+	return
+}
+
+func (r *ItemsRepositoryParams) GetItemByID(id string) (item models.Item, err error) {
+	err = r.Gorm.Find(&item).Error
 	return
 }

@@ -13,7 +13,7 @@ import (
 
 type ItemsController interface {
 	CreateItem(c echo.Context) (err error)
-	GetItem(c echo.Context) (err error)
+	GetItemByID(c echo.Context) (err error)
 }
 
 type ItemsControllerParams struct {
@@ -52,8 +52,8 @@ func (h *ItemsControllerParams) CreateItem(c echo.Context) (err error) {
 		Send(c)
 }
 
-func (h *ItemsControllerParams) GetItem(c echo.Context) (err error) {
-	var params dtos.GetItemReq
+func (h *ItemsControllerParams) GetItemByID(c echo.Context) (err error) {
+	var params dtos.GetItemByIDReq
 
 	if err = c.Bind(&params); err != nil {
 		err = responses.NewError().
@@ -64,9 +64,9 @@ func (h *ItemsControllerParams) GetItem(c echo.Context) (err error) {
 		return
 	}
 
-	res, err := h.Items.GetItem(params)
+	item, err := h.Items.GetItemByID(params)
 	return responses.New().
-		WithData(res).
+		WithData(item).
 		WithError(err).
 		WithSuccessCode(http.StatusOK).
 		Send(c)

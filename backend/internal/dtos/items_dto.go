@@ -1,14 +1,14 @@
 package dtos
 
 type CreateItemReq struct {
-	ItemName     string `json:"itemName"`
-	Description  string `json:"description"`
-	Points       int    `json:"points"`
-	NeededAmount int    `json:"neededAmount"`
-	EncodedImage string `json:"encodedImage"`
+	ItemName      string `json:"itemName"`
+	Description   string `json:"description"`
+	PointsPerItem int    `json:"pointsPerItem"`
+	NeededAmount  int    `json:"neededAmount"`
+	EncodedImage  string `json:"encodedImage"`
 }
 
-type GetItemReq struct {
+type GetItemByIDReq struct {
 	ItemID string `param:"id"`
 }
 

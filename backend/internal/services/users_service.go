@@ -22,6 +22,7 @@ type UsersService interface {
 	GetUser(params dtos.GetUserReq) (user models.User, err error)
 	Register(params dtos.RegisterUserReq) (err error)
 	Login(params dtos.LoginUserReq) (res dtos.LoginUserRes, err error)
+	UserTopup(params dtos.UserTopupReq, claims dtos.AuthClaims) (err error)
 }
 
 type UsersServiceParams struct {
@@ -150,5 +151,35 @@ func (s *UsersServiceParams) Login(params dtos.LoginUserReq) (res dtos.LoginUser
 	}
 
 	res.AccessToken = token
+	return
+}
+
+func (s *UsersServiceParams) UserTopup(params dtos.UserTopupReq, claims dtos.AuthClaims) (err error) {
+	user, err := s.Users.GetUser(dtos.GetUserParams{ ID: claims.ID })
+	if err != nil {
+		err = responses.NewError().
+			WithError(err).
+			WithMessage(err.Error()).
+			WithCode(http.StatusInternalServerError)
+		return
+	}
+
+	if user.Role != constants.CollectorRole {
+		err = responses.NewError().
+			WithError(err).
+			WithMessage("user role is not a collector").
+			WithCode(http.StatusBadRequest)
+	}
+
+	user.Points += int64(params.Points)
+
+	err = s.Users.SaveUser(user)
+	if err != nil {
+		err = responses.NewError().
+			WithError(err).
+			WithMessage(err.Error()).
+			WithCode(http.StatusInternalServerError)
+	}
+
 	return
 }
