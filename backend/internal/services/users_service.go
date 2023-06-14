@@ -36,8 +36,6 @@ func NewUsersService(params UsersServiceParams) UsersService {
 }
 
 func (s *UsersServiceParams) GetUser(params dtos.GetUserReq) (user models.User, err error) {
-	// TODO: handle params validation here
-
 	user, err = s.Users.GetUser(dtos.GetUserParams{
 		ID: params.UserID,
 	})
@@ -155,7 +153,7 @@ func (s *UsersServiceParams) Login(params dtos.LoginUserReq) (res dtos.LoginUser
 }
 
 func (s *UsersServiceParams) UserTopup(params dtos.UserTopupReq, claims dtos.AuthClaims) (err error) {
-	user, err := s.Users.GetUser(dtos.GetUserParams{ ID: claims.ID })
+	user, err := s.Users.GetUser(dtos.GetUserParams{ID: claims.ID})
 	if err != nil {
 		err = responses.NewError().
 			WithError(err).
@@ -173,7 +171,7 @@ func (s *UsersServiceParams) UserTopup(params dtos.UserTopupReq, claims dtos.Aut
 
 	user.Points += int64(params.Points)
 
-	err = s.Users.SaveUser(user)
+	err = s.Users.SaveUser(&user)
 	if err != nil {
 		err = responses.NewError().
 			WithError(err).
