@@ -17,6 +17,7 @@ import (
 type ItemsService interface {
 	CreateItem(ctx context.Context, claims dtos.AuthClaims, params dtos.CreateItemReq) (newItem models.Item, err error)
 	GetItemByID(params dtos.GetItemByIDReq) (item models.Item, err error)
+	GetItems(params dtos.GetItemsReq) (items []models.Item, err error)
 	DonateItem(claims dtos.AuthClaims, params dtos.DonateItemReq) (err error)
 }
 
@@ -129,6 +130,18 @@ func (s *ItemsServiceParams) GetItemByID(params dtos.GetItemByIDReq) (item model
 		err = newErr
 	}
 
+	return
+}
+
+func (s *ItemsServiceParams) GetItems(params dtos.GetItemsReq) (items []models.Item, err error) {
+	items, err = s.Items.GetItems(params.SubCategoryID, params.Search)
+	if err != nil {
+		newErr := responses.NewError().
+			WithError(err).
+			WithCode(http.StatusInternalServerError).
+			WithMessage("Failed to get items.")
+		err = newErr
+	}
 	return
 }
 

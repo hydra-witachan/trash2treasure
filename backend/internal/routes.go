@@ -28,5 +28,6 @@ func SetupRoutes(p RoutesParams) {
 	itemsGroup := p.Echo.Group("items")
 	itemsGroup.POST("", p.Items.CreateItem, middlewares.AuthMiddleware)
 	itemsGroup.GET("/:id", p.Items.GetItemByID)
+	itemsGroup.GET("", p.Items.GetItems)
 	itemsGroup.POST("/donate/:id", p.Items.DonateItem, middlewares.AuthMiddleware)
 }

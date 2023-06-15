@@ -18,6 +18,7 @@ type ItemsRepository interface {
 	CreateItem(item *models.Item) (err error)
 	UpdateItem(item *models.Item) (err error)
 	GetItemByID(id string) (item models.Item, err error)
+	GetItems(subCategoryId string, search string) (items []models.Item, err error)
 	UploadItemImage(ctx context.Context, params dtos.UploadItemImageParams) (imageUrl string, err error)
 }
 
@@ -65,5 +66,26 @@ func (r *ItemsRepositoryParams) UploadItemImage(ctx context.Context, params dtos
 
 func (r *ItemsRepositoryParams) GetItemByID(id string) (item models.Item, err error) {
 	err = r.Gorm.Find(&item).Error
+	return
+}
+
+func (r *ItemsRepositoryParams) GetItems(subCategoryId string, search string) (items []models.Item, err error) {
+	var value string
+
+	query := `SELECT *
+		FROM items i 
+		JOIN sub_categories sc ON sc.id = i.sub_category_id
+		WHERE 
+	`
+
+	if subCategoryId != "" {
+		query += "sc.id = ?"
+		value = subCategoryId
+	} else if search != "" {
+		query += "?"
+		value = "i.item_name LIKE '%%" + search + "%%'"
+	}
+
+	err = r.Gorm.Raw(query, value).Scan(&items).Error
 	return
 }

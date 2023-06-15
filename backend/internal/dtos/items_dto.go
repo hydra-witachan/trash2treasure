@@ -14,6 +14,11 @@ type GetItemByIDReq struct {
 	ItemID string `param:"id"`
 }
 
+type GetItemsReq struct {
+	SubCategoryID 	string 	`query:"sub_category_id"`
+	Search			string	`query:"search"`
+}
+
 type UploadItemImageParams struct {
 	ItemID    string
 	FileType  string
