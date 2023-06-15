@@ -15,6 +15,7 @@ import { HomeGuestComponent } from './home-guest/home-guest.component';
 import { UploadItemComponent } from './upload-item/upload-item.component';
 import { DonateComponent } from './donate/donate.component';
 import { ListItemComponent } from './list-item/list-item.component';
+import { DetailItemComponent } from './detail-item/detail-item.component';
 
 @NgModule({
   declarations: [
@@ -29,7 +30,8 @@ import { ListItemComponent } from './list-item/list-item.component';
     HomeGuestComponent,
     UploadItemComponent,
     DonateComponent,
-    ListItemComponent
+    ListItemComponent,
+    DetailItemComponent
   ],
   imports: [
     BrowserModule,

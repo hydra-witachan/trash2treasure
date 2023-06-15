@@ -6,5 +6,5 @@ import { Component } from '@angular/core';
   styleUrls: ['./list-item.component.css']
 })
 export class ListItemComponent {
-
+  subCategory = "Skincare";
 }

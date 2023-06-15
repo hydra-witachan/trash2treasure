@@ -9,6 +9,7 @@ import { HomeGuestComponent } from './home-guest/home-guest.component';
 import { UploadItemComponent } from './upload-item/upload-item.component';
 import { DonateComponent } from './donate/donate.component';
 import { ListItemComponent } from './list-item/list-item.component';
+import { DetailItemComponent } from './detail-item/detail-item.component';
 
 const role: string | null = localStorage.getItem('role');
 const routes: Routes = [
@@ -30,6 +31,7 @@ if (role === 'collector') {
   routes.push({ path: 'home', component: HomeDonatorComponent });
   routes.push({ path: 'donate', component: DonateComponent });
   routes.push({ path: 'category/:subCategory/items', component: ListItemComponent });
+  routes.push({ path: 'items/:id', component: DetailItemComponent });
 } else {
   // a guest
   routes.push({ path: '', component: HomeGuestComponent });
