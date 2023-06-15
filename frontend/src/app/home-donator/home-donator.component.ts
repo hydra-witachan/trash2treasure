@@ -27,6 +27,20 @@ export class HomeDonatorComponent {
     {name: "Origami Paper", imgUrl: "https://cdn.pixabay.com/photo/2013/07/13/10/08/origami-156627_960_720.png"}
   ]
 
+  plasticData = [
+    {name: "Spoon", imgUrl: "../../assets/spoon.png"},
+    {name: "Skincare", imgUrl: "https://cdn.pixabay.com/photo/2018/07/16/05/42/skincare-3541261_960_720.png" },
+    {name: "Spray", imgUrl: "../../assets/spray.png"},
+    {name: "Origami Paper", imgUrl: "../../assets/plastic_Bag.png"}
+  ]
+
+  glassData = [
+    {name: "Spoon", imgUrl: "../../assets/spoon.png"},
+    {name: "Skincare", imgUrl: "https://cdn.pixabay.com/photo/2018/07/16/05/42/skincare-3541261_960_720.png" },
+    {name: "Spray", imgUrl: "../../assets/spray.png"},
+    {name: "Plastic Bag", imgUrl: "../../assets/plastic_Bag.png"}
+  ]
+  
   itemData: items[];
 
   constructor(private router: Router) {
@@ -40,9 +54,8 @@ export class HomeDonatorComponent {
       this.itemData = this.organicData;
     } else if(button === 'paper') {
       this.itemData = this.paperData;
-      // todo: next
     } else if(button === 'plastic') {
-      // todo: next
+      this.itemData = this.plasticData;
     } else if(button === 'glass') {
       // todo: next
     }
@@ -50,6 +63,9 @@ export class HomeDonatorComponent {
 
   navigateToItem(item: string){
     item = item.toLowerCase();
+    if(item.includes(" ")) {
+      item = item.replace(" ", "-");
+    }
     this.router.navigate([`/category/${item}/items`]);
   }
 }
