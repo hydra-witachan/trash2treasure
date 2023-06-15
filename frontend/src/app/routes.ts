@@ -8,6 +8,7 @@ import { HomeDonatorComponent } from './home-donator/home-donator.component';
 import { HomeGuestComponent } from './home-guest/home-guest.component';
 import { UploadItemComponent } from './upload-item/upload-item.component';
 import { DonateComponent } from './donate/donate.component';
+import { ListItemComponent } from './list-item/list-item.component';
 
 const role: string | null = localStorage.getItem('role');
 const routes: Routes = [
@@ -28,6 +29,7 @@ if (role === 'collector') {
   routes.push({ path: '', component: HomeDonatorComponent });
   routes.push({ path: 'home', component: HomeDonatorComponent });
   routes.push({ path: 'donate', component: DonateComponent });
+  routes.push({ path: 'category/:subCategory/items', component: ListItemComponent });
 } else {
   // a guest
   routes.push({ path: '', component: HomeGuestComponent });
