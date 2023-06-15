@@ -13,6 +13,7 @@ import { HomeCollectorComponent } from './home-collector/home-collector.componen
 import { HomeDonatorComponent } from './home-donator/home-donator.component';
 import { HomeGuestComponent } from './home-guest/home-guest.component';
 import { UploadItemComponent } from './upload-item/upload-item.component';
+import { DonateComponent } from './donate/donate.component';
 
 @NgModule({
   declarations: [
@@ -25,7 +26,8 @@ import { UploadItemComponent } from './upload-item/upload-item.component';
     HomeCollectorComponent,
     HomeDonatorComponent,
     HomeGuestComponent,
-    UploadItemComponent
+    UploadItemComponent,
+    DonateComponent
   ],
   imports: [
     BrowserModule,
