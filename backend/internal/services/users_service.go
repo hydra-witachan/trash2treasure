@@ -23,6 +23,7 @@ type UsersService interface {
 	Register(params dtos.RegisterUserReq) (err error)
 	Login(params dtos.LoginUserReq) (res dtos.LoginUserRes, err error)
 	UserTopup(params dtos.UserTopupReq, claims dtos.AuthClaims) (err error)
+	RedeemPoints(claims dtos.AuthClaims, params dtos.RedeemPointsReq) (res dtos.RedeemPointsRes, err error)
 }
 
 type UsersServiceParams struct {
@@ -36,8 +37,6 @@ func NewUsersService(params UsersServiceParams) UsersService {
 }
 
 func (s *UsersServiceParams) GetUser(params dtos.GetUserReq) (user models.User, err error) {
-	// TODO: handle params validation here
-
 	user, err = s.Users.GetUser(dtos.GetUserParams{
 		ID: params.UserID,
 	})
@@ -155,7 +154,7 @@ func (s *UsersServiceParams) Login(params dtos.LoginUserReq) (res dtos.LoginUser
 }
 
 func (s *UsersServiceParams) UserTopup(params dtos.UserTopupReq, claims dtos.AuthClaims) (err error) {
-	user, err := s.Users.GetUser(dtos.GetUserParams{ ID: claims.ID })
+	user, err := s.Users.GetUser(dtos.GetUserParams{ID: claims.ID})
 	if err != nil {
 		err = responses.NewError().
 			WithError(err).
@@ -169,11 +168,12 @@ func (s *UsersServiceParams) UserTopup(params dtos.UserTopupReq, claims dtos.Aut
 			WithError(err).
 			WithMessage("user role is not a collector").
 			WithCode(http.StatusBadRequest)
+		return
 	}
 
 	user.Points += int64(params.Points)
 
-	err = s.Users.SaveUser(user)
+	err = s.Users.SaveUser(&user)
 	if err != nil {
 		err = responses.NewError().
 			WithError(err).
@@ -181,5 +181,46 @@ func (s *UsersServiceParams) UserTopup(params dtos.UserTopupReq, claims dtos.Aut
 			WithCode(http.StatusInternalServerError)
 	}
 
+	return
+}
+
+func (s *UsersServiceParams) RedeemPoints(claims dtos.AuthClaims, params dtos.RedeemPointsReq) (res dtos.RedeemPointsRes, err error) {
+	user, err := s.GetUser(dtos.GetUserReq{UserID: claims.ID})
+	if err != nil {
+		return
+	}
+
+	if user.Role != constants.DonatorRole {
+		err = responses.NewError().
+			WithError(err).
+			WithMessage("User's role is not a donator.").
+			WithCode(http.StatusBadRequest)
+		return
+	}
+
+	moneyReceived, ok := constants.RedeemExchangeRate[params.PointsToExchange]
+	if !ok {
+		err = responses.NewError().
+			WithMessage("Invalid points to be exchanged as it doesn't follow the exchange rate maps.").
+			WithCode(http.StatusBadRequest)
+		return
+	}
+	if user.Points < params.PointsToExchange {
+		err = responses.NewError().
+			WithMessage("User doesn't have enough points to be exchanged with real money.").
+			WithCode(http.StatusBadRequest)
+		return
+	}
+
+	res.MoneyReceived = moneyReceived
+	user.Points -= params.PointsToExchange
+
+	err = s.Users.SaveUser(&user)
+	if err != nil {
+		err = responses.NewError().
+			WithError(err).
+			WithCode(http.StatusInternalServerError).
+			WithMessage("Failed to take user's points for exchange.")
+	}
 	return
 }

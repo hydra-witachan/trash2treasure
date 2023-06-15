@@ -19,3 +19,11 @@ type UploadItemImageParams struct {
 	FileType  string
 	ImageData []byte
 }
+
+type DonateItemReq struct {
+	ItemID string `param:"id" json:"id"`
+
+	PhoneNumber string `json:"phoneNumber"`
+	Address     string `json:"address"`
+	Quantity    int    `json:"quantity"`
+}
