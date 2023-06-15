@@ -1,15 +1,40 @@
 <div class="min-h-screen">
-    <div class="pt-[40px] ml-[80px]">
-        <div class="flex items-center">
-          <label for="profile-image" class="rounded-full h-32 w-32 overflow-hidden bg-gray-200 flex items-center justify-center">
-            <img id="preview-image" src="https://i.pinimg.com/originals/b9/68/56/b96856b18abfe860f9edc3dec1f12aab.jpg" alt="Profile Image" class="w-full h-auto">
-          </label>
-          <div class="ml-[40px]">
-            <p class="font-bold mb-2 text-3xl ">Alvian</p>
-            <button class="bg-[#212A3E] font-bold hover:bg-blue-600 text-white py-2 px-2 rounded text-sm">Go To Profile</button>
-          </div>
-        </div>
+  <div class="pt-[40px] ml-[80px]">
+    <div class="flex items-center">
+      <label for="profile-image"
+        class="rounded-full h-32 w-32 overflow-hidden bg-gray-200 flex items-center justify-center">
+        <img id="preview-image" src="https://i.pinimg.com/originals/b9/68/56/b96856b18abfe860f9edc3dec1f12aab.jpg"
+          alt="Profile Image" class="w-full h-auto" />
+      </label>
+      <div class="ml-[40px]">
+        <p class="font-bold mb-2 text-4xl text-[#394867]">Alvian</p>
+        <button class="bg-[#394867] font-bold hover:bg-blue-600 text-white py-1 px-2 rounded text-sm">
+          Go To Profile
+        </button>
       </div>
+    </div>
+  </div>
 
-      
+  <div class="mt-2 flex flex-wrap justify-center">
+    <div class="rounded basis-3/5 m-5">
+      <img class="w-32 mx-auto" src="https://cdn.pixabay.com/photo/2018/07/16/05/42/skincare-3541261_1280.png" />
+
+      <p class="font-bold text-md text-center text-[#394867] text-2xl mt-3">{{itemName}}</p>
+      <p class="mt-2">{{itemDesc}}</p>
+      <p class="text-gray-700 text-base mt-2">Items: {{fullfiledAmount}}/{{neededAmount}}</p>
+      <p class="text-[#2DBE15] font-bold text-base mt-2">Points: {{pointPerItem}}/item</p>
+
+    </div>
+  </div>
+
+  <button
+    class="flex items-center justify-center bg-[#394867] hover:bg-blue-500 text-white font-bold py-2 px-4 rounded w-3/4 mx-auto mt-[10px]">
+    Submit
+  </button>
+
+  <button
+    class="flex items-center justify-center hover:bg-[#A30909] bg-[#EA5E5E] text-white font-bold py-2 px-4 rounded w-3/4 mx-auto mt-[16px]">
+    Cancel
+  </button>
+
 </div>

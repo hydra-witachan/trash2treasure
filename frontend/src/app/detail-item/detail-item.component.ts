@@ -6,5 +6,9 @@ import { Component } from '@angular/core';
   styleUrls: ['./detail-item.component.css']
 })
 export class DetailItemComponent {
-
+  itemName = 'Skincare';
+  itemDesc = 'I need skincare plastic for recycle to make my own research';
+  neededAmount = 100;
+  fullfiledAmount = 10;
+  pointPerItem = 20;
 }
