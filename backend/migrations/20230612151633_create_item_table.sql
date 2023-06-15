@@ -1,8 +1,8 @@
 -- migrate:up
 CREATE TABLE items (
-    id VARCHAR(36) NOT NULL DEFAULT UUID(),
+    id CHAR(36) NOT NULL DEFAULT UUID(),
 
-    author_id VARCHAR(36) NOT NULL,
+    author_id CHAR(36) NOT NULL,
     author_name VARCHAR(256) NOT NULL,
     item_name VARCHAR(256) NOT NULL,
     description VARCHAR(512),

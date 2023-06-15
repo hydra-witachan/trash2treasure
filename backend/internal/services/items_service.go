@@ -72,6 +72,8 @@ func (s *ItemsServiceParams) CreateItem(ctx context.Context, claims dtos.AuthCla
 
 	newItem = models.Item{
 		AuthorID:        claims.ID,
+		CategoryID: 	 params.CategoryID,
+		SubCategoryID: 	 params.SubCategoryID,
 		AuthorName:      claims.FullName,
 		ItemName:        params.ItemName,
 		Description:     params.Description,

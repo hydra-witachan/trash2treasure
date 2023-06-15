@@ -1,6 +1,8 @@
 package dtos
 
 type CreateItemReq struct {
+	CategoryID	  string `json:"categoryId"`
+	SubCategoryID string `json:"subCategoryId"`
 	ItemName      string `json:"itemName"`
 	Description   string `json:"description"`
 	PointsPerItem int    `json:"pointsPerItem"`
