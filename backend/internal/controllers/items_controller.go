@@ -14,6 +14,7 @@ import (
 type ItemsController interface {
 	CreateItem(c echo.Context) (err error)
 	GetItemByID(c echo.Context) (err error)
+	DonateItem(c echo.Context) (err error)
 }
 
 type ItemsControllerParams struct {
@@ -67,6 +68,30 @@ func (h *ItemsControllerParams) GetItemByID(c echo.Context) (err error) {
 	item, err := h.Items.GetItemByID(params)
 	return responses.New().
 		WithData(item).
+		WithError(err).
+		WithSuccessCode(http.StatusOK).
+		Send(c)
+}
+
+func (h *ItemsControllerParams) DonateItem(c echo.Context) (err error) {
+	var params dtos.DonateItemReq
+
+	if err = c.Bind(&params); err != nil {
+		err = responses.NewError().
+			WithCode(http.StatusBadRequest).
+			WithError(err).
+			WithMessage("Failed to bind parameters")
+
+		return
+	}
+
+	claims, err := helpers.GetAuthClaims(c)
+	if err != nil {
+		return
+	}
+
+	err = h.Items.DonateItem(claims, params)
+	return responses.New().
 		WithError(err).
 		WithSuccessCode(http.StatusOK).
 		Send(c)

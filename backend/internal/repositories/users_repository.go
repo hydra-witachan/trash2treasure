@@ -12,7 +12,7 @@ type UsersRepository interface {
 	GetUser(params dtos.GetUserParams) (user models.User, err error)
 	Register(model models.User) (err error)
 	IsUserExists(params dtos.IsUserExistsParams) (isExists bool, err error)
-	SaveUser(model models.User) (err error)
+	SaveUser(model *models.User) (err error)
 }
 
 type UsersRepositoryParams struct {
@@ -62,7 +62,7 @@ func (r *UsersRepositoryParams) IsUserExists(params dtos.IsUserExistsParams) (is
 	return
 }
 
-func (r *UsersRepositoryParams) SaveUser(user models.User) (err error) {
-	err = r.Gorm.Save(&user).Error
+func (r *UsersRepositoryParams) SaveUser(user *models.User) (err error) {
+	err = r.Gorm.Save(user).Error
 	return
 }
