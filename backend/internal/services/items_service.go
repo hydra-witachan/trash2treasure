@@ -61,13 +61,14 @@ func (s *ItemsServiceParams) CreateItem(ctx context.Context, claims dtos.AuthCla
 		return
 	}
 
-	if user.Points < int64(params.NeededAmount)*int64(params.PointsPerItem) {
+	if user.Points < int64(params.NeededAmount) * int64(params.PointsPerItem) {
 		err = responses.NewError().
 			WithError(err).
 			WithMessage("not enough point users").
 			WithCode(http.StatusBadRequest)
 		return
 	}
+	user.Points -= int64(params.NeededAmount) * int64(params.PointsPerItem)
 
 	newItem = models.Item{
 		AuthorID:        claims.ID,
