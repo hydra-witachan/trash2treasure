@@ -8,6 +8,10 @@ import { HomeDonatorComponent } from './home-donator/home-donator.component';
 import { HomeGuestComponent } from './home-guest/home-guest.component';
 import { UploadItemComponent } from './upload-item/upload-item.component';
 import { DonateComponent } from './donate/donate.component';
+import { ListItemComponent } from './list-item/list-item.component';
+import { DetailItemComponent } from './detail-item/detail-item.component';
+import { SignInComponent } from './sign-in/sign-in.component';
+import { SignUpComponent } from './sign-up/sign-up.component';
 import { RedeemPointsComponent } from './redeem-points/redeem-points.component';
 
 const role: string | null = localStorage.getItem('role');
@@ -15,6 +19,8 @@ const routes: Routes = [
   { path: 'auth', component: AuthComponent },
   { path: 'top-up', component: TopUpComponent },
   { path: 'top-up/confirmation', component: ConfirmationTopUpComponent },
+  { path: 'auth/sign-in', component: SignInComponent },
+  { path: 'auth/sign-up', component: SignUpComponent },
   {
     path: 'top-up/confirmation/success',
     component: TransactionSuccessComponent,
@@ -29,11 +35,12 @@ if (role === 'collector') {
   routes.push({ path: '', component: HomeDonatorComponent });
   routes.push({ path: 'home', component: HomeDonatorComponent });
   routes.push({ path: 'donate', component: DonateComponent });
+  routes.push({ path: 'category/:subCategory/items', component: ListItemComponent });
+  routes.push({ path: 'items/:id', component: DetailItemComponent });
   routes.push({ path: 'redeem-points', component: RedeemPointsComponent });
 } else {
   // a guest
-  routes.push({ path: '', component: HomeGuestComponent });
-  routes.push({ path: 'home', component: HomeGuestComponent });
+  routes.push({ path: '', component: AuthComponent });
 }
 
 export default routes;

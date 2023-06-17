@@ -6,5 +6,11 @@ import { Component } from '@angular/core';
   styleUrls: ['./footer.component.css']
 })
 export class FooterComponent {
-  isDonator = false; // collector
+  role: string | null;
+
+  constructor() {
+    this.role = localStorage.getItem('role');
+  }
+
+
 }

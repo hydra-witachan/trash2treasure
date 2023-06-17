@@ -14,6 +14,12 @@ import { HomeDonatorComponent } from './home-donator/home-donator.component';
 import { HomeGuestComponent } from './home-guest/home-guest.component';
 import { UploadItemComponent } from './upload-item/upload-item.component';
 import { DonateComponent } from './donate/donate.component';
+import { ListItemComponent } from './list-item/list-item.component';
+import { DetailItemComponent } from './detail-item/detail-item.component';
+import { SignInComponent } from './sign-in/sign-in.component';
+import { SignUpComponent } from './sign-up/sign-up.component';
+import { FormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
 import { RedeemPointsComponent } from './redeem-points/redeem-points.component';
 
 @NgModule({
@@ -29,11 +35,17 @@ import { RedeemPointsComponent } from './redeem-points/redeem-points.component';
     HomeGuestComponent,
     UploadItemComponent,
     DonateComponent,
-    RedeemPointsComponent
+    ListItemComponent,
+    DetailItemComponent,
+    SignInComponent,
+    SignUpComponent,
+    RedeemPointsComponent,
   ],
   imports: [
     BrowserModule,
     RouterModule.forRoot(routes),
+    FormsModule,
+    HttpClientModule,
   ],
   providers: [DecimalPipe],
   bootstrap: [AppComponent]
