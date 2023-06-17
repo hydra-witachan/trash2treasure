@@ -140,6 +140,7 @@ func (s *UsersServiceParams) Login(params dtos.LoginUserReq) (res dtos.LoginUser
 		Email:    user.Email,
 		Username: user.Username,
 		FullName: user.FullName,
+		Role:     string(user.Role),
 		RegisteredClaims: jwt.RegisteredClaims{
 			ExpiresAt: jwt.NewNumericDate(currentTime.Add(tokenExpireDuration)),
 			IssuedAt:  jwt.NewNumericDate(currentTime),

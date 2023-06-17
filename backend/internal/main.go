@@ -14,6 +14,7 @@ import (
 	"github.com/goava/di"
 	"github.com/joho/godotenv"
 	"github.com/labstack/echo/v4"
+	"github.com/labstack/echo/v4/middleware"
 	"gorm.io/gorm"
 )
 
@@ -59,6 +60,8 @@ func main() {
 		if err != nil {
 			log.Fatal(err)
 		}
+
+		e.Use(middleware.CORS())
 
 		e.HTTPErrorHandler = middlewares.ErrorHandler()
 		e.Start(fmt.Sprintf(":%s", os.Getenv("PORT")))
