@@ -48,10 +48,10 @@ func (r *UsersRepositoryParams) IsUserExists(params dtos.IsUserExistsParams) (is
 
 	query := r.Gorm
 	if params.Email != "" {
-		query.Where("email = ?", params.Email)
+		query = query.Where("email = ?", params.Email)
 	}
 	if params.Username != "" {
-		query.Where("username = ?", params.Username)
+		query = query.Where("username = ?", params.Username)
 	}
 
 	if err = query.Limit(1).Find(&user).Error; err != nil {
