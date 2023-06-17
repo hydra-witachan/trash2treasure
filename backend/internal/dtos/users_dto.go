@@ -43,6 +43,7 @@ type AuthClaims struct {
 	Email    string `json:"email"`
 	Username string `json:"username"`
 	FullName string `json:"fullName"`
+	Role     string `json:"role"`
 }
 
 type UserTopupReq struct {
