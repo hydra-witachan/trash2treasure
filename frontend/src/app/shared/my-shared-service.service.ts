@@ -8,6 +8,19 @@ export class MySharedService {
   private feePointTopUp!: number;
   private pointTopUpFormated!: string;
 
+  private role: string | null = 'guest';
+
+  constructor() {
+    this.role = localStorage.getItem("role");
+    if(!this.role) {
+      this.role = 'guest';
+    }
+  }
+
+  setRole(role: string) {
+    this.role = role;
+  }
+
   setPointTopUp(data: number) {
     this.pointTopUp = data;
   }
@@ -18,6 +31,10 @@ export class MySharedService {
 
   setPointTopUpFormated(data: string) {
     this.pointTopUpFormated = data;
+  }
+
+  getRole(): string {
+    return this.role!;
   }
 
   getPointTopUp(): number {

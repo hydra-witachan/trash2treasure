@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { MySharedService } from '../shared/my-shared-service.service';
 
 @Component({
   selector: 'app-footer',
@@ -6,5 +7,8 @@ import { Component } from '@angular/core';
   styleUrls: ['./footer.component.css']
 })
 export class FooterComponent {
-  isDonator = false; // collector
+
+  constructor(public sharedService: MySharedService) {
+  }
+
 }
