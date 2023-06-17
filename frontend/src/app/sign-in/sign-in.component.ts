@@ -15,7 +15,7 @@ export class SignInComponent {
   email: string = '';
   password: string = '';
 
-  constructor(private router: Router, private http: HttpClient, private shared: MySharedService) {}
+  constructor(private router: Router, private http: HttpClient, private sharedService: MySharedService) {}
 
   submit() {
     console.log('Email:', this.email);
@@ -32,11 +32,11 @@ export class SignInComponent {
       // Handle the response from the server
       const token = response.accessToken;
       const decodedToken: any = jwt_decode(token);
-
       const { role } = decodedToken;
-      localStorage.setItem("role", role);
 
-      this.shared.setRole(role);
+      localStorage.setItem("accessToken", token);
+      localStorage.setItem("role", role);
+      this.sharedService.setRole(role);
       this.router.resetConfig(SetupRoutes());
       this.router.navigate(['/home']);
 
