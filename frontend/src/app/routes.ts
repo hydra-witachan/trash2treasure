@@ -5,7 +5,6 @@ import { ConfirmationTopUpComponent } from './confirmation-top-up/confirmation-t
 import { TransactionSuccessComponent } from './transaction-success/transaction-success.component';
 import { HomeCollectorComponent } from './home-collector/home-collector.component';
 import { HomeDonatorComponent } from './home-donator/home-donator.component';
-import { HomeGuestComponent } from './home-guest/home-guest.component';
 import { UploadItemComponent } from './upload-item/upload-item.component';
 import { DonateComponent } from './donate/donate.component';
 import { ListItemComponent } from './list-item/list-item.component';

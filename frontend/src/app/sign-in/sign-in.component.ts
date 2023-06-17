@@ -1,6 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import jwt_decode from 'jwt-decode';
+
 
 @Component({
   selector: 'app-sign-in',
@@ -26,7 +28,15 @@ export class SignInComponent {
     this.http.post<any>(url, body)
     .subscribe(response => {
       // Handle the response from the server
+      const token = response.accessToken;
+      const decodedToken: any = jwt_decode(token);
+
+      const { role } = decodedToken;
+      localStorage.setItem("role", role);
+
+      this.router.navigate(['/home']);
       console.log(response);
+      console.log(decodedToken);
     }, error => {
       // Handle any errors that occurred during the request
       console.error(error);
