@@ -1,0 +1,3 @@
+.env
+build/
+config/firebase-sdk-private-key.json
