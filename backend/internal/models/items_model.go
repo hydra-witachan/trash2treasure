@@ -13,4 +13,6 @@ type Item struct {
 	ImageURL        string `gorm:"column:image_url" json:"imageUrl"`
 	NeededAmount    int    `gorm:"column:needed_amount" json:"neededAmount"`
 	FullfiledAmount int    `gorm:"column:fullfiled_amount" json:"fullfiledAmount"`
+	Category		string `gorm:"column:category" json:"category"`
+	SubCategory		string `gorm:"column:sub_category" json:"subCategory"`
 }

@@ -12,6 +12,7 @@ import { ListItemComponent } from './list-item/list-item.component';
 import { DetailItemComponent } from './detail-item/detail-item.component';
 import { SignInComponent } from './sign-in/sign-in.component';
 import { SignUpComponent } from './sign-up/sign-up.component';
+import { RedeemPointsComponent } from './redeem-points/redeem-points.component';
 
 const role: string | null = localStorage.getItem('role');
 const routes: Routes = [
@@ -36,6 +37,7 @@ if (role === 'collector') {
   routes.push({ path: 'donate', component: DonateComponent });
   routes.push({ path: 'category/:subCategory/items', component: ListItemComponent });
   routes.push({ path: 'items/:id', component: DetailItemComponent });
+  routes.push({ path: 'redeem-points', component: RedeemPointsComponent });
 } else {
   // a guest
   routes.push({ path: '', component: AuthComponent });
