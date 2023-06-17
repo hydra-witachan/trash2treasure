@@ -1,1 +1,42 @@
-<p>sign-in works!</p>
+<div class="min-h-screen">
+    <div class="pb-[15%]"></div>
+    <div class="flex justify-center items-center mt-14">
+      <img src="../../assets/Eco.png" />
+    </div>
+  
+    <h1 class="mt-[10px] text-3xl font-bold text-center text-[#394867]">
+      Sign In
+    </h1>
+  
+    <h1 class="pt-[16px] font-bold ml-[13.5%] text-[#394867]">
+      Email
+    </h1>
+    <div class="flex items-center justify-center mt-2">
+      <input
+        type="text"
+        placeholder="Enter your email"
+        class="w-[75%] rounded-lg p-2 bg-white shadow-md border border-gray-300 focus:outline-none focus:border-blue-500"
+        [(ngModel)]="email"
+      />
+    </div>
+  
+    <h1 class="pt-[16px] font-bold ml-[13.5%] text-[#394867]">
+      Password
+    </h1>
+    <div class="flex items-center justify-center mt-2">
+      <input
+        type="password"
+        placeholder="Enter your password"
+        class="w-[75%] rounded-lg p-2 bg-white shadow-md border border-gray-300 focus:outline-none focus:border-blue-500"
+        [(ngModel)]="password"
+      />
+    </div>
+  
+    <button
+      class="flex items-center justify-center bg-[#3A6F46] hover:bg-[#394867] text-white font-bold py-2 px-4 rounded-full w-3/4 mx-auto mt-6"
+      (click)="submit()"
+    >
+      Sign In
+    </button>
+  </div>
+  

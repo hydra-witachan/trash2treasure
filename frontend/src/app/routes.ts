@@ -11,6 +11,7 @@ import { DonateComponent } from './donate/donate.component';
 import { ListItemComponent } from './list-item/list-item.component';
 import { DetailItemComponent } from './detail-item/detail-item.component';
 import { SignInComponent } from './sign-in/sign-in.component';
+import { SignUpComponent } from './sign-up/sign-up.component';
 
 const role: string | null = localStorage.getItem('role');
 const routes: Routes = [
@@ -18,6 +19,7 @@ const routes: Routes = [
   { path: 'top-up', component: TopUpComponent },
   { path: 'top-up/confirmation', component: ConfirmationTopUpComponent },
   { path: 'auth/sign-in', component: SignInComponent },
+  { path: 'auth/sign-up', component: SignUpComponent },
   {
     path: 'top-up/confirmation/success',
     component: TransactionSuccessComponent,
