@@ -17,6 +17,7 @@ import { DonateComponent } from './donate/donate.component';
 import { ListItemComponent } from './list-item/list-item.component';
 import { DetailItemComponent } from './detail-item/detail-item.component';
 import { SignInComponent } from './sign-in/sign-in.component';
+import { SignUpComponent } from './sign-up/sign-up.component';
 
 @NgModule({
   declarations: [
@@ -33,7 +34,8 @@ import { SignInComponent } from './sign-in/sign-in.component';
     DonateComponent,
     ListItemComponent,
     DetailItemComponent,
-    SignInComponent
+    SignInComponent,
+    SignUpComponent
   ],
   imports: [
     BrowserModule,
