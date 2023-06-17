@@ -14,6 +14,7 @@ import { HomeDonatorComponent } from './home-donator/home-donator.component';
 import { HomeGuestComponent } from './home-guest/home-guest.component';
 import { UploadItemComponent } from './upload-item/upload-item.component';
 import { DonateComponent } from './donate/donate.component';
+import { RedeemPointsComponent } from './redeem-points/redeem-points.component';
 
 @NgModule({
   declarations: [
@@ -27,7 +28,8 @@ import { DonateComponent } from './donate/donate.component';
     HomeDonatorComponent,
     HomeGuestComponent,
     UploadItemComponent,
-    DonateComponent
+    DonateComponent,
+    RedeemPointsComponent
   ],
   imports: [
     BrowserModule,
