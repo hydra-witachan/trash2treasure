@@ -10,12 +10,14 @@ import { UploadItemComponent } from './upload-item/upload-item.component';
 import { DonateComponent } from './donate/donate.component';
 import { ListItemComponent } from './list-item/list-item.component';
 import { DetailItemComponent } from './detail-item/detail-item.component';
+import { SignInComponent } from './sign-in/sign-in.component';
 
 const role: string | null = localStorage.getItem('role');
 const routes: Routes = [
   { path: 'auth', component: AuthComponent },
   { path: 'top-up', component: TopUpComponent },
   { path: 'top-up/confirmation', component: ConfirmationTopUpComponent },
+  { path: 'auth/sign-in', component: SignInComponent },
   {
     path: 'top-up/confirmation/success',
     component: TransactionSuccessComponent,
