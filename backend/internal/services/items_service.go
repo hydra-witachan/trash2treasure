@@ -141,11 +141,6 @@ func (s *ItemsServiceParams) DonateItem(claims dtos.AuthClaims, params dtos.Dona
 		return
 	}
 
-	itemAuthor, err := s.UsersService.GetUser(dtos.GetUserReq{UserID: item.AuthorID})
-	if err != nil {
-		return
-	}
-
 	futureTotalAmount := (item.FullfiledAmount + params.Quantity)
 	if futureTotalAmount > item.NeededAmount {
 		err = responses.NewError().
@@ -154,10 +149,7 @@ func (s *ItemsServiceParams) DonateItem(claims dtos.AuthClaims, params dtos.Dona
 		return
 	}
 
-	totalPoints := (item.Points * params.Quantity)
-
-	user.Points += int64(totalPoints)
-	itemAuthor.Points -= int64(totalPoints)
+	user.Points += int64(item.Points * params.Quantity)
 	item.FullfiledAmount = futureTotalAmount
 
 	if err = s.Users.SaveUser(&user); err != nil {
@@ -165,13 +157,6 @@ func (s *ItemsServiceParams) DonateItem(claims dtos.AuthClaims, params dtos.Dona
 			WithError(err).
 			WithCode(http.StatusInternalServerError).
 			WithMessage("Failed to update donator's points.")
-		return
-	}
-	if err = s.Users.SaveUser(&itemAuthor); err != nil {
-		err = responses.NewError().
-			WithError(err).
-			WithCode(http.StatusInternalServerError).
-			WithMessage("Failed to update collector's points.")
 		return
 	}
 	if err = s.Items.UpdateItem(&item); err != nil {
