@@ -7,6 +7,6 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   ngOnInit() {
-    localStorage.setItem("role", "donator");
+    localStorage.setItem("role", "guest");
   }
 }
