@@ -1,0 +1,9 @@
+services:
+  mariadb:
+    image: mariadb:10
+    restart: on-failure
+    environment:
+      MARIADB_ROOT_PASSWORD: hello123
+      MARIADB_DATABASE: winaction
+    ports:
+      - 3306:3306
