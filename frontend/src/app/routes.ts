@@ -12,38 +12,36 @@ import { DetailItemComponent } from './detail-item/detail-item.component';
 import { SignInComponent } from './sign-in/sign-in.component';
 import { SignUpComponent } from './sign-up/sign-up.component';
 import { RedeemPointsComponent } from './redeem-points/redeem-points.component';
-
-let role: string | null;
+import { NotFoundComponent } from './not-found/not-found.component';
 
 export function SetupRoutes(): Routes {
-  role = localStorage.getItem('role');
+  const role = localStorage.getItem('role');
 
-  const routes: Routes = [
-    { path: 'auth', component: AuthComponent },
-    { path: 'top-up', component: TopUpComponent },
-    { path: 'top-up/confirmation', component: ConfirmationTopUpComponent },
-    { path: 'auth/sign-in', component: SignInComponent },
-    { path: 'auth/sign-up', component: SignUpComponent },
-    {
-      path: 'top-up/confirmation/success',
-      component: TransactionSuccessComponent,
-    },
-  ]
+  const routes: Routes = []
 
   if (role === 'collector') {
     routes.push({ path: '', component: HomeCollectorComponent });
     routes.push({ path: 'home', component: HomeCollectorComponent });
     routes.push({ path: 'upload', component: UploadItemComponent });
+    routes.push({ path: 'top-up', component: TopUpComponent });
+    routes.push({ path: 'top-up/confirmation', component: ConfirmationTopUpComponent });
+    routes.push({ path: 'top-up/confirmation/success', component: TransactionSuccessComponent});
+    routes.push({ path: '**', component: NotFoundComponent});
   } else if (role === 'donator') {
     routes.push({ path: '', component: HomeDonatorComponent });
     routes.push({ path: 'home', component: HomeDonatorComponent });
     routes.push({ path: 'donate', component: DonateComponent });
     routes.push({ path: 'category/:subCategory/items', component: ListItemComponent });
     routes.push({ path: 'items/:id', component: DetailItemComponent });
-    routes.push({ path: 'redeem-points', component: RedeemPointsComponent });
+    routes.push({ path: 'redeem', component: RedeemPointsComponent });
+    routes.push({ path: '**', component: NotFoundComponent});
   } else {
     // a guest
     routes.push({ path: '', component: AuthComponent });
+    routes.push({ path: 'auth/sign-in', component: SignInComponent });
+    routes.push({ path: 'auth/sign-up', component: SignUpComponent });
+    routes.push({ path: 'auth', component: AuthComponent });
+    routes.push({ path: '**', component: NotFoundComponent});
   }
 
   return routes;
