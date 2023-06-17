@@ -8,7 +8,7 @@ import { MySharedService } from '../shared/my-shared-service.service';
 })
 export class FooterComponent {
 
-  constructor(public shared: MySharedService) {
+  constructor(public sharedService: MySharedService) {
   }
 
 }
