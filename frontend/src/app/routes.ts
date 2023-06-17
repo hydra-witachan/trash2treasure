@@ -36,8 +36,7 @@ if (role === 'collector') {
   routes.push({ path: 'items/:id', component: DetailItemComponent });
 } else {
   // a guest
-  routes.push({ path: '', component: HomeGuestComponent });
-  routes.push({ path: 'home', component: HomeGuestComponent });
+  routes.push({ path: '', component: AuthComponent });
 }
 
 export default routes;
