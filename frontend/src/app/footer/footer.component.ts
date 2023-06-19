@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { MySharedService } from '../shared/my-shared-service.service';
 
 @Component({
   selector: 'app-footer',
@@ -6,11 +7,8 @@ import { Component } from '@angular/core';
   styleUrls: ['./footer.component.css']
 })
 export class FooterComponent {
-  role: string | null;
 
-  constructor() {
-    this.role = localStorage.getItem('role');
+  constructor(public shared: MySharedService) {
   }
-
 
 }
