@@ -22,6 +22,7 @@ import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { RedeemPointsComponent } from './redeem-points/redeem-points.component';
 import { NotFoundComponent } from './not-found/not-found.component';
+import { SuccessRedeemComponent } from './success-redeem/success-redeem.component';
 
 @NgModule({
   declarations: [
@@ -42,6 +43,7 @@ import { NotFoundComponent } from './not-found/not-found.component';
     SignUpComponent,
     RedeemPointsComponent,
     NotFoundComponent,
+    SuccessRedeemComponent,
   ],
   imports: [
     BrowserModule,
