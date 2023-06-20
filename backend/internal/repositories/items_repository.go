@@ -65,7 +65,7 @@ func (r *ItemsRepositoryParams) UploadItemImage(ctx context.Context, params dtos
 }
 
 func (r *ItemsRepositoryParams) GetItemByID(id string) (item models.Item, err error) {
-	err = r.Gorm.Find(&item).Error
+	err = r.Gorm.Where("id = ?", id).First(&item).Error
 	return
 }
 
