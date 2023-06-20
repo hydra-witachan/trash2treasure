@@ -136,7 +136,17 @@ func (h *ItemsControllerParams) DonateItem(c echo.Context) (err error) {
 }
 
 func (h *ItemsControllerParams) GetCollectorItems(c echo.Context) (err error) {
-	claims, err := helpers.GetAuthClaims(c)
+	var params dtos.GetCollectorItemsReq
+
+	if err = c.Bind(&params); err != nil {
+		err = responses.NewError().
+			WithCode(http.StatusBadRequest).
+			WithError(err).
+			WithMessage("Failed to bind parameters")
+
+		return
+	}
+
 	if err != nil {
 		err = responses.NewError().
 			WithCode(http.StatusInternalServerError).
@@ -145,7 +155,7 @@ func (h *ItemsControllerParams) GetCollectorItems(c echo.Context) (err error) {
 		return
 	}
 
-	items, err := h.Items.GetCollectorItems(claims)
+	items, err := h.Items.GetCollectorItems(params)
 	return responses.New().
 		WithData(items).
 		WithError(err).

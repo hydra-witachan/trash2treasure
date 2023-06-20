@@ -14,6 +14,10 @@ type GetItemByIDReq struct {
 	ItemID string `param:"id"`
 }
 
+type GetCollectorItemsReq struct {
+	CollectorID string `param:"id"`
+}
+
 type GetItemsReq struct {
 	SubCategory 	string 	`query:"sub_category"`
 	Search			string	`query:"search"`

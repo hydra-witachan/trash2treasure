@@ -32,7 +32,7 @@ func SetupRoutes(p RoutesParams) {
 	itemsGroup.GET("/:id", p.Items.GetItemByID)
 	itemsGroup.GET("", p.Items.GetItems)
 	itemsGroup.POST("/donate/:id", p.Items.DonateItem, middlewares.AuthMiddleware)
-	itemsGroup.GET("/collectors/", p.Items.GetCollectorItems, middlewares.AuthMiddleware)
+	itemsGroup.GET("/collectors/:id", p.Items.GetCollectorItems, middlewares.AuthMiddleware)
 
 	categoriesGroup := p.Echo.Group("categories")
 	categoriesGroup.GET("", p.Categories.GetCategories)

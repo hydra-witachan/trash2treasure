@@ -19,7 +19,7 @@ type ItemsService interface {
 	GetItemByID(params dtos.GetItemByIDReq) (item models.Item, err error)
 	GetItems(params dtos.GetItemsReq) (items []models.Item, err error)
 	DonateItem(claims dtos.AuthClaims, params dtos.DonateItemReq) (err error)
-	GetCollectorItems(claims dtos.AuthClaims) (items []models.Item, err error)
+	GetCollectorItems(params dtos.GetCollectorItemsReq) (items []models.Item, err error)
 }
 
 type ItemsServiceParams struct {
@@ -187,8 +187,8 @@ func (s *ItemsServiceParams) DonateItem(claims dtos.AuthClaims, params dtos.Dona
 	return
 }
 
-func (s *ItemsServiceParams) GetCollectorItems(claims dtos.AuthClaims) (items []models.Item, err error) {
-	items, err = s.Items.GetCollectorItems(claims.ID)
+func (s *ItemsServiceParams) GetCollectorItems(params dtos.GetCollectorItemsReq) (items []models.Item, err error) {
+	items, err = s.Items.GetCollectorItems(params.CollectorID)
 	if err != nil {
 		newErr := responses.NewError().
 			WithError(err).
