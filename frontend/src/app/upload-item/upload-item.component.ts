@@ -8,9 +8,17 @@ import { Router } from '@angular/router';
 })
 export class UploadItemComponent {
 
+  selectOptionData: string[] = ["Organic", "Paper", "Plastic"];
+  selectedCategoryOption: string = ""; // To store the selected option
+  selecterSubCategoryOption: string = "";
+  organicData = ['Banana', 'Leaf', 'Grass', 'Tea'];
+  paperData = ['A4', 'Book', 'Duplex', 'Origami Paper'];
+  plasticData = ['Spoon', 'Skincare', 'Spray', 'Origami Paper'];
+
   constructor(private router: Router) {
 
   }
+  
 
 
   submit() {
