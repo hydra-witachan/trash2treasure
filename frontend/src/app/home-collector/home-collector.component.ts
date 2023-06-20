@@ -47,4 +47,8 @@ export class HomeCollectorComponent {
   upload() {
     this.router.navigate(['/upload']);
   }
+  
+  displayItemDetails(item: any) {
+    this.router.navigate([`/items/${item.id}`]);
+  }
 }
