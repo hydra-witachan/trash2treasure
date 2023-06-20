@@ -16,6 +16,7 @@ type ItemsController interface {
 	GetItemByID(c echo.Context) (err error)
 	GetItems(c echo.Context) (err error)
 	DonateItem(c echo.Context) (err error)
+	GetCollectorItems(c echo.Context) (err error)
 }
 
 type ItemsControllerParams struct {
@@ -43,6 +44,10 @@ func (h *ItemsControllerParams) CreateItem(c echo.Context) (err error) {
 
 	claims, err := helpers.GetAuthClaims(c)
 	if err != nil {
+		err = responses.NewError().
+			WithCode(http.StatusInternalServerError).
+			WithError(err).
+			WithMessage("Failed to get auth claims")
 		return
 	}
 
@@ -117,11 +122,42 @@ func (h *ItemsControllerParams) DonateItem(c echo.Context) (err error) {
 
 	claims, err := helpers.GetAuthClaims(c)
 	if err != nil {
-		return
+		err = responses.NewError().
+			WithCode(http.StatusInternalServerError).
+			WithError(err).
+			WithMessage("Failed to get auth claims")
 	}
 
 	err = h.Items.DonateItem(claims, params)
 	return responses.New().
+		WithError(err).
+		WithSuccessCode(http.StatusOK).
+		Send(c)
+}
+
+func (h *ItemsControllerParams) GetCollectorItems(c echo.Context) (err error) {
+	var params dtos.GetCollectorItemsReq
+
+	if err = c.Bind(&params); err != nil {
+		err = responses.NewError().
+			WithCode(http.StatusBadRequest).
+			WithError(err).
+			WithMessage("Failed to bind parameters")
+
+		return
+	}
+
+	if err != nil {
+		err = responses.NewError().
+			WithCode(http.StatusInternalServerError).
+			WithError(err).
+			WithMessage("Failed to get auth claims")
+		return
+	}
+
+	items, err := h.Items.GetCollectorItems(params)
+	return responses.New().
+		WithData(items).
 		WithError(err).
 		WithSuccessCode(http.StatusOK).
 		Send(c)
