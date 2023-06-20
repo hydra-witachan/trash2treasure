@@ -8,6 +8,7 @@ import (
 	"go-boilerplate/internal/services"
 	"go-boilerplate/pkg/databases"
 	"log"
+	"net/http"
 	"os"
 
 	"github.com/amacneil/dbmate/v2/pkg/dbmate"
@@ -61,7 +62,12 @@ func main() {
 			log.Fatal(err)
 		}
 
-		e.Use(middleware.CORS())
+		// Enable CORS for all routes
+		e.Use(middleware.CORSWithConfig(middleware.CORSConfig{
+			AllowOrigins: []string{"http://localhost:4200"},
+			AllowMethods: []string{http.MethodGet, http.MethodPost, http.MethodPut, http.MethodDelete, http.MethodPatch},
+			AllowHeaders: []string{echo.HeaderOrigin, echo.HeaderContentType, echo.HeaderAccept, echo.HeaderAuthorization}, // Include echo.HeaderAuthorization in the allowed headers
+		}))
 
 		e.HTTPErrorHandler = middlewares.ErrorHandler()
 		e.Start(fmt.Sprintf(":%s", os.Getenv("PORT")))

@@ -12,7 +12,7 @@ type items = {
   styleUrls: ['./home-donator.component.css']
 })
 export class HomeDonatorComponent {
-  activeButton: string = '';
+  activeButton: string = 'plastic';
   organicData = [
     {name: "Banana", imgUrl: "https://static.vecteezy.com/system/resources/previews/008/848/350/original/fresh-yellow-banana-fruit-free-png.png"},
     {name: "Leaf", imgUrl: "https://static.vecteezy.com/system/resources/previews/009/664/930/original/green-leaf-on-transparent-background-file-free-png.png" },
@@ -44,7 +44,7 @@ export class HomeDonatorComponent {
   itemData: items[];
 
   constructor(private router: Router) {
-    this.itemData = [];
+    this.itemData = this.plasticData;
   }
 
   setActiveButton(button: string) {

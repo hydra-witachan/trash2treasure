@@ -13,6 +13,9 @@ import { SignInComponent } from './sign-in/sign-in.component';
 import { SignUpComponent } from './sign-up/sign-up.component';
 import { RedeemPointsComponent } from './redeem-points/redeem-points.component';
 import { NotFoundComponent } from './not-found/not-found.component';
+import { SuccessRedeemComponent } from './success-redeem/success-redeem.component';
+import { SuccessDonateComponent } from './success-donate/success-donate.component';
+import { DetailItemCollectorComponent } from './detail-item-collector/detail-item-collector.component';
 
 export function SetupRoutes(): Routes {
   const role = localStorage.getItem('role');
@@ -26,14 +29,17 @@ export function SetupRoutes(): Routes {
     routes.push({ path: 'top-up', component: TopUpComponent });
     routes.push({ path: 'top-up/confirmation', component: ConfirmationTopUpComponent });
     routes.push({ path: 'top-up/confirmation/success', component: TransactionSuccessComponent});
+    routes.push({ path: 'items/:id', component: DetailItemCollectorComponent });
     routes.push({ path: '**', component: NotFoundComponent});
   } else if (role === 'donator') {
     routes.push({ path: '', component: HomeDonatorComponent });
     routes.push({ path: 'home', component: HomeDonatorComponent });
-    routes.push({ path: 'donate', component: DonateComponent });
+    routes.push({ path: 'donate/:id', component: DonateComponent });
     routes.push({ path: 'category/:subCategory/items', component: ListItemComponent });
     routes.push({ path: 'items/:id', component: DetailItemComponent });
     routes.push({ path: 'redeem', component: RedeemPointsComponent });
+    routes.push({ path: 'redeem/success', component: SuccessRedeemComponent });
+    routes.push({ path: 'success/donate', component: SuccessDonateComponent});
     routes.push({ path: '**', component: NotFoundComponent});
   } else {
     // a guest
