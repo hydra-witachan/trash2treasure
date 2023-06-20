@@ -69,20 +69,23 @@ func (r *ItemsRepositoryParams) GetItemByID(id string) (item models.Item, err er
 	return
 }
 
-func (r *ItemsRepositoryParams) GetItems(subCategoryId string, search string) (items []models.Item, err error) {
+func (r *ItemsRepositoryParams) GetItems(subCategory string, search string) (items []models.Item, err error) {
 	query := `SELECT *
 		FROM items i 
-		JOIN sub_categories sc ON sc.id = i.sub_category_id
 		WHERE 
 	`
 
-	if subCategoryId != "" {
-		query += "sc.id = ?"
-		err = r.Gorm.Raw(query, subCategoryId).Scan(&items).Error
+	fmt.Println(subCategory)
+	if subCategory != "" {
+		query += "i.sub_category LIKE ?"
+		fmt.Println(query)
+		err = r.Gorm.Raw(query, subCategory).Scan(&items).Error
 	} else if search != "" {
 		query +=fmt.Sprintf("i.item_name LIKE '%%%s%%'", search)
 		err = r.Gorm.Raw(query).Scan(&items).Error
 	}
+
+	fmt.Println(items)
 
 	return
 }

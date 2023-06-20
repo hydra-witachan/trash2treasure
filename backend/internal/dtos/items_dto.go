@@ -15,7 +15,7 @@ type GetItemByIDReq struct {
 }
 
 type GetItemsReq struct {
-	SubCategoryID 	string 	`query:"sub_category_id"`
+	SubCategory 	string 	`query:"sub_category"`
 	Search			string	`query:"search"`
 }
 

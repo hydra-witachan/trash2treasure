@@ -15,4 +15,4 @@ CREATE TABLE sub_categories (
 );
 
 -- migrate:down
-DROP TABLE categories;
+DROP TABLE sub_categories;
