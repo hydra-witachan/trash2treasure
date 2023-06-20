@@ -36,80 +36,17 @@
     
     <!-- Items -->
     <div class="mt-2 flex flex-wrap justify-center">
-      <div
-        class="rounded shadow-lg basis-1/2 m-5 cursor-pointer hover:bg-[#f4f4f4]"
-      >
-        <img
-          class="w-32 mx-auto"
-          src="https://cdn.pixabay.com/photo/2018/07/16/05/42/skincare-3541261_1280.png"
-        />
+
+      <div *ngFor="let item of items" class="rounded shadow-lg basis-1/2 m-5 cursor-pointer hover:bg-[#f4f4f4]" (click)="displayItemDetails(item)">
+        <img class="w-32 mx-auto" [src]="item.imageUrl" />
         <div class="px-6 py-4">
-          <p class="text-gray-700 text-base">Alvian</p>
-          <p class="font-bold text-md">Skincare</p>
-          <p class="text-gray-700 text-base">Items: 2/100</p>
-          <p class="text-[#2DBE15] font-bold text-base">Points: 20/item</p>
+          <p class="text-gray-700 text-base">{{ item.authorName }}</p>
+          <p class="font-bold text-md">{{ item.itemName }}</p>
+          <p class="text-gray-700 text-base">Items: {{ item.fullfiledAmount }}/{{ item.neededAmount }}</p>
+          <p class="text-[#2DBE15] font-bold text-base">Points: {{ item.points }}/item</p>
         </div>
       </div>
-  
-      <div
-        class="rounded shadow-lg basis-1/2 m-5 cursor-pointer hover:bg-[#f4f4f4]"
-      >
-        <img
-          class="w-32 mx-auto"
-          src="https://cdn.pixabay.com/photo/2018/07/16/05/42/skincare-3541261_1280.png"
-        />
-        <div class="px-6 py-4">
-          <p class="text-gray-700 text-base">Alvian</p>
-          <p class="font-bold text-md">Skincare</p>
-          <p class="text-gray-700 text-base">Items: 2/100</p>
-          <p class="text-[#2DBE15] font-bold text-base">Points: 20/item</p>
-        </div>
-      </div>
-  
-      <div
-        class="rounded shadow-lg basis-1/2 m-5 cursor-pointer hover:bg-[#f4f4f4]"
-      >
-        <img
-          class="w-32 mx-auto"
-          src="https://cdn.pixabay.com/photo/2018/07/16/05/42/skincare-3541261_1280.png"
-        />
-        <div class="px-6 py-4">
-          <p class="text-gray-700 text-base">Alvian</p>
-          <p class="font-bold text-md">Skincare</p>
-          <p class="text-gray-700 text-base">Items: 2/100</p>
-          <p class="text-[#2DBE15] font-bold text-base">Points: 20/item</p>
-        </div>
-      </div>
-  
-      <div
-        class="rounded shadow-lg basis-1/2 m-5 cursor-pointer hover:bg-[#f4f4f4]"
-      >
-        <img
-          class="w-32 mx-auto"
-          src="https://cdn.pixabay.com/photo/2018/07/16/05/42/skincare-3541261_1280.png"
-        />
-        <div class="px-6 py-4">
-          <p class="text-gray-700 text-base">Alvian</p>
-          <p class="font-bold text-md">Skincare</p>
-          <p class="text-gray-700 text-base">Items: 2/100</p>
-          <p class="text-[#2DBE15] font-bold text-base">Points: 20/item</p>
-        </div>
-      </div>
-  
-      <div
-        class="rounded shadow-lg basis-1/2 m-5 cursor-pointer hover:bg-[#f4f4f4]"
-      >
-        <img
-          class="w-32 mx-auto"
-          src="https://cdn.pixabay.com/photo/2018/07/16/05/42/skincare-3541261_1280.png"
-        />
-        <div class="px-6 py-4">
-          <p class="text-gray-700 text-base">Alvian</p>
-          <p class="font-bold text-md">Skincare</p>
-          <p class="text-gray-700 text-base">Items: 2/100</p>
-          <p class="text-[#2DBE15] font-bold text-base">Points: 20/item</p>
-        </div>
-      </div>
+      
     </div>
   
     <div class="pb-[20%]"></div>
