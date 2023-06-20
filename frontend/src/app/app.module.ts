@@ -23,6 +23,8 @@ import { HttpClientModule } from '@angular/common/http';
 import { RedeemPointsComponent } from './redeem-points/redeem-points.component';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { SuccessRedeemComponent } from './success-redeem/success-redeem.component';
+import { SuccessDonateComponent } from './success-donate/success-donate.component';
+import { DetailItemCollectorComponent } from './detail-item-collector/detail-item-collector.component';
 
 @NgModule({
   declarations: [
@@ -44,6 +46,8 @@ import { SuccessRedeemComponent } from './success-redeem/success-redeem.componen
     RedeemPointsComponent,
     NotFoundComponent,
     SuccessRedeemComponent,
+    SuccessDonateComponent,
+    DetailItemCollectorComponent,
   ],
   imports: [
     BrowserModule,
