@@ -10,8 +10,8 @@ type User struct {
 	Email    string             `gorm:"column:email" json:"email"`
 	Password string             `gorm:"column:password" json:"-"` // don't allow password to ever be exported.
 	Address  string             `gorm:"column:address" json:"address"`
-	Role     constants.UserRole `gorm:"role" json:"role"`
-	Points   int64              `gorm:"points" json:"points"`
+	Role     constants.UserRole `gorm:"column:role" json:"role"`
+	Points   int64              `gorm:"column:points" json:"points"`
 }
 
 func (User) TableName() string {

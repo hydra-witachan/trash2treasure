@@ -20,6 +20,7 @@ type ItemsRepository interface {
 	GetItemByID(id string) (item models.Item, err error)
 	GetItems(subCategoryId string, search string) (items []models.Item, err error)
 	UploadItemImage(ctx context.Context, params dtos.UploadItemImageParams) (imageUrl string, err error)
+	GetCollectorItems(collectorId string) (items []models.Item, err error)
 }
 
 type ItemsRepositoryParams struct {
@@ -65,24 +66,25 @@ func (r *ItemsRepositoryParams) UploadItemImage(ctx context.Context, params dtos
 }
 
 func (r *ItemsRepositoryParams) GetItemByID(id string) (item models.Item, err error) {
-	err = r.Gorm.Find(&item).Error
+	err = r.Gorm.Where("id = ?", id).First(&item).Error
 	return
 }
 
-func (r *ItemsRepositoryParams) GetItems(subCategoryId string, search string) (items []models.Item, err error) {
+func (r *ItemsRepositoryParams) GetItems(subCategory string, search string) (items []models.Item, err error) {
 	query := `SELECT *
 		FROM items i 
-		JOIN sub_categories sc ON sc.id = i.sub_category_id
-		WHERE 
+		WHERE i.sub_category LIKE ? 
 	`
 
-	if subCategoryId != "" {
-		query += "sc.id = ?"
-		err = r.Gorm.Raw(query, subCategoryId).Scan(&items).Error
-	} else if search != "" {
-		query +=fmt.Sprintf("i.item_name LIKE '%%%s%%'", search)
-		err = r.Gorm.Raw(query).Scan(&items).Error
+	if search != "" {
+		query +=fmt.Sprintf("AND i.item_name LIKE '%%%s%%'", search)
 	}
 
+	err = r.Gorm.Raw(query, subCategory).Scan(&items).Error
+	return
+}
+
+func (r *ItemsRepositoryParams) GetCollectorItems(collectorId string) (items []models.Item, err error) {
+	err = r.Gorm.Where("author_id = ?", collectorId).Find(&items).Error
 	return
 }
