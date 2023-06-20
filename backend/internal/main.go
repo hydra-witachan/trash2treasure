@@ -8,12 +8,14 @@ import (
 	"go-boilerplate/internal/services"
 	"go-boilerplate/pkg/databases"
 	"log"
+	"net/http"
 	"os"
 
 	"github.com/amacneil/dbmate/v2/pkg/dbmate"
 	"github.com/goava/di"
 	"github.com/joho/godotenv"
 	"github.com/labstack/echo/v4"
+	"github.com/labstack/echo/v4/middleware"
 	"gorm.io/gorm"
 )
 
@@ -59,6 +61,13 @@ func main() {
 		if err != nil {
 			log.Fatal(err)
 		}
+
+		// Enable CORS for all routes
+		e.Use(middleware.CORSWithConfig(middleware.CORSConfig{
+			AllowOrigins: []string{"http://localhost:4200"},
+			AllowMethods: []string{http.MethodGet, http.MethodPost, http.MethodPut, http.MethodDelete, http.MethodPatch},
+			AllowHeaders: []string{echo.HeaderOrigin, echo.HeaderContentType, echo.HeaderAccept, echo.HeaderAuthorization}, // Include echo.HeaderAuthorization in the allowed headers
+		}))
 
 		e.HTTPErrorHandler = middlewares.ErrorHandler()
 		e.Start(fmt.Sprintf(":%s", os.Getenv("PORT")))

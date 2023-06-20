@@ -1,8 +1,8 @@
 package dtos
 
 type CreateItemReq struct {
-	CategoryID	  string `json:"categoryId"`
-	SubCategoryID string `json:"subCategoryId"`
+	Category	  string `json:"category"`
+	SubCategory   string `json:"subCategory"`
 	ItemName      string `json:"itemName"`
 	Description   string `json:"description"`
 	PointsPerItem int    `json:"pointsPerItem"`
@@ -14,8 +14,12 @@ type GetItemByIDReq struct {
 	ItemID string `param:"id"`
 }
 
+type GetCollectorItemsReq struct {
+	CollectorID string `param:"id"`
+}
+
 type GetItemsReq struct {
-	SubCategoryID 	string 	`query:"sub_category_id"`
+	SubCategory 	string 	`query:"sub_category"`
 	Search			string	`query:"search"`
 }
 

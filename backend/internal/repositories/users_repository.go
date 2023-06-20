@@ -28,13 +28,13 @@ func NewUsersRepository(params UsersRepositoryParams) UsersRepository {
 func (r *UsersRepositoryParams) GetUser(params dtos.GetUserParams) (user models.User, err error) {
 	query := r.Gorm
 	if params.ID != "" {
-		query.Where("id = ?", params.ID)
+		query = query.Where("id = ?", params.ID)
 	}
 	if params.Email != "" {
-		query.Where("email = ?", params.Email)
+		query = query.Where("email = ?", params.Email)
 	}
 
-	err = query.Find(&user).Error
+	err = query.First(&user).Error
 	return
 }
 
@@ -48,10 +48,10 @@ func (r *UsersRepositoryParams) IsUserExists(params dtos.IsUserExistsParams) (is
 
 	query := r.Gorm
 	if params.Email != "" {
-		query.Where("email = ?", params.Email)
+		query = query.Where("email = ?", params.Email)
 	}
 	if params.Username != "" {
-		query.Where("username = ?", params.Username)
+		query = query.Where("username = ?", params.Username)
 	}
 
 	if err = query.Limit(1).Find(&user).Error; err != nil {

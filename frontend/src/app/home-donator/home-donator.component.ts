@@ -12,7 +12,7 @@ type items = {
   styleUrls: ['./home-donator.component.css']
 })
 export class HomeDonatorComponent {
-  activeButton: string = '';
+  activeButton: string = 'plastic';
   organicData = [
     {name: "Banana", imgUrl: "https://static.vecteezy.com/system/resources/previews/008/848/350/original/fresh-yellow-banana-fruit-free-png.png"},
     {name: "Leaf", imgUrl: "https://static.vecteezy.com/system/resources/previews/009/664/930/original/green-leaf-on-transparent-background-file-free-png.png" },
@@ -21,7 +21,7 @@ export class HomeDonatorComponent {
   ]
 
   paperData = [
-    {name: "A4", imgUrl: "https://assets.stickpng.com/images/580b585b2edbce24c47b2467.png"},
+    {name: "A4", imgUrl: "../../assets/a4.png"},
     {name: "Book", imgUrl: "https://static.vecteezy.com/system/resources/previews/009/377/766/original/3d-book-icon-with-transparent-background-free-png.png" },
     {name: "Duplex", imgUrl: "https://image1ws.indotrading.com/s3/productimages/webp/co249273/p1097364/w425-h425/693406ec-159f-4867-b8cd-f596ad0f690f.png"},
     {name: "Origami Paper", imgUrl: "https://cdn.pixabay.com/photo/2013/07/13/10/08/origami-156627_960_720.png"}
@@ -44,7 +44,7 @@ export class HomeDonatorComponent {
   itemData: items[];
 
   constructor(private router: Router) {
-    this.itemData = [];
+    this.itemData = this.plasticData;
   }
 
   setActiveButton(button: string) {

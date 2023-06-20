@@ -19,6 +19,7 @@ type ItemsService interface {
 	GetItemByID(params dtos.GetItemByIDReq) (item models.Item, err error)
 	GetItems(params dtos.GetItemsReq) (items []models.Item, err error)
 	DonateItem(claims dtos.AuthClaims, params dtos.DonateItemReq) (err error)
+	GetCollectorItems(params dtos.GetCollectorItemsReq) (items []models.Item, err error)
 }
 
 type ItemsServiceParams struct {
@@ -72,8 +73,8 @@ func (s *ItemsServiceParams) CreateItem(ctx context.Context, claims dtos.AuthCla
 
 	newItem = models.Item{
 		AuthorID:        claims.ID,
-		CategoryID: 	 params.CategoryID,
-		SubCategoryID: 	 params.SubCategoryID,
+		Category: 	 	 params.Category,
+		SubCategory: 	 params.SubCategory,
 		AuthorName:      claims.FullName,
 		ItemName:        params.ItemName,
 		Description:     params.Description,
@@ -135,7 +136,7 @@ func (s *ItemsServiceParams) GetItemByID(params dtos.GetItemByIDReq) (item model
 }
 
 func (s *ItemsServiceParams) GetItems(params dtos.GetItemsReq) (items []models.Item, err error) {
-	items, err = s.Items.GetItems(params.SubCategoryID, params.Search)
+	items, err = s.Items.GetItems(params.SubCategory, params.Search)
 	if err != nil {
 		newErr := responses.NewError().
 			WithError(err).
@@ -183,5 +184,17 @@ func (s *ItemsServiceParams) DonateItem(claims dtos.AuthClaims, params dtos.Dona
 		return
 	}
 
+	return
+}
+
+func (s *ItemsServiceParams) GetCollectorItems(params dtos.GetCollectorItemsReq) (items []models.Item, err error) {
+	items, err = s.Items.GetCollectorItems(params.CollectorID)
+	if err != nil {
+		newErr := responses.NewError().
+			WithError(err).
+			WithCode(http.StatusInternalServerError).
+			WithMessage("Failed to get items.")
+		err = newErr
+	}
 	return
 }
