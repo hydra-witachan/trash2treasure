@@ -20,6 +20,7 @@ type ItemsRepository interface {
 	GetItemByID(id string) (item models.Item, err error)
 	GetItems(subCategoryId string, search string) (items []models.Item, err error)
 	UploadItemImage(ctx context.Context, params dtos.UploadItemImageParams) (imageUrl string, err error)
+	GetCollectorItems(collectorId string) (items []models.Item, err error)
 }
 
 type ItemsRepositoryParams struct {
@@ -80,5 +81,10 @@ func (r *ItemsRepositoryParams) GetItems(subCategory string, search string) (ite
 	}
 
 	err = r.Gorm.Raw(query, subCategory).Scan(&items).Error
+	return
+}
+
+func (r *ItemsRepositoryParams) GetCollectorItems(collectorId string) (items []models.Item, err error) {
+	err = r.Gorm.Where("author_id = ?", collectorId).Find(&items).Error
 	return
 }
