@@ -86,6 +86,15 @@ func (h *ItemsControllerParams) GetItems(c echo.Context) (err error) {
 		return
 	}
 
+	if params.SubCategory == "" {
+		err = responses.NewError().
+			WithCode(http.StatusBadRequest).
+			WithError(err).
+			WithMessage("sub_category is required")
+
+		return
+	}
+
 	items, err := h.Items.GetItems(params)
 	return responses.New().
 		WithData(items).
