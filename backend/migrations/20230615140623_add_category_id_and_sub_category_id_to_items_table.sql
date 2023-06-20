@@ -18,3 +18,6 @@ REFERENCES sub_categories (id);
 -- migrate:down
 ALTER TABLE items
 DROP COLUMN category_id;
+
+ALTER TABLE items
+DROP COLUMN sub_category_id;

@@ -135,7 +135,7 @@ func (s *ItemsServiceParams) GetItemByID(params dtos.GetItemByIDReq) (item model
 }
 
 func (s *ItemsServiceParams) GetItems(params dtos.GetItemsReq) (items []models.Item, err error) {
-	items, err = s.Items.GetItems(params.SubCategoryID, params.Search)
+	items, err = s.Items.GetItems(params.SubCategory, params.Search)
 	if err != nil {
 		newErr := responses.NewError().
 			WithError(err).
