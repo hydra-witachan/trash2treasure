@@ -1,4 +1,5 @@
 import jwt_decode from 'jwt-decode';
+
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -38,28 +39,37 @@ export class ProfileComponent {
     const token = this.accessToken;
     if (token) {
       const decoded: any = jwt_decode(token);
+      let targetUserId: string;
 
-      const url = `http://localhost:5000/items/collectors/${decoded.id}`;
-      const headers = new HttpHeaders({
-        Authorization: `Bearer ${token}`,
-      });
+      if (decoded.role === 'collector') {
+        targetUserId = decoded.id;
+      } else {
+        targetUserId = this.route.snapshot.paramMap.get('id')!
+      }
 
-      this.http.get(url, { headers }).subscribe(
-        (response: any) => {
-          this.items = response;
-        },
-        (error) => {
-          console.error(error);
-        }
-      );
-
-      this.getProfile(token);
+      this.getCollectorItems(token, targetUserId);
+      this.getProfile(token, targetUserId);
     }
   }
 
-  getProfile(token: string) {
-    const decoded: any = jwt_decode(token);
-    const url = `http://localhost:5000/users/${decoded.id}`;
+  getCollectorItems(token: string, targetUserId: string) {
+    const url = `http://localhost:5000/items/collectors/${targetUserId}`;
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${token}`,
+    });
+
+    this.http.get(url, { headers }).subscribe(
+      (response: any) => {
+        this.items = response;
+      },
+      (error) => {
+        console.error(error);
+      }
+    );
+  }
+
+  getProfile(token: string, targetUserId: string) {
+    const url = `http://localhost:5000/users/${targetUserId}`;
     const headers = new HttpHeaders({
       Authorization: `Bearer ${token}`,
     });
@@ -75,7 +85,7 @@ export class ProfileComponent {
   }
 
   isCurrentUser() {
-    return true;
+    return !!this.route.snapshot.paramMap.get('id');
   }
 
   getCapitalizedRole() {

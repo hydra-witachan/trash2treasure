@@ -41,4 +41,8 @@ export class DetailItemCollectorComponent {
     this.router.navigate([`/home`]);
   }
 
+  goToProfile() {
+    this.router.navigate([`/profile/${this.item.authorId}`])
+  }
+
 }
