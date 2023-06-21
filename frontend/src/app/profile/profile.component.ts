@@ -39,11 +39,9 @@ export class ProfileComponent {
     const token = this.accessToken;
     if (token) {
       const decoded: any = jwt_decode(token);
-      let targetUserId: string;
+      let targetUserId: string = decoded.id;
 
-      if (decoded.role === 'collector') {
-        targetUserId = decoded.id;
-      } else {
+      if (!this.isCurrentUser()) {
         targetUserId = this.route.snapshot.paramMap.get('id')!
       }
 
@@ -85,7 +83,7 @@ export class ProfileComponent {
   }
 
   isCurrentUser() {
-    return !!this.route.snapshot.paramMap.get('id');
+    return !this.route.snapshot.paramMap.has('id');
   }
 
   getCapitalizedRole() {
