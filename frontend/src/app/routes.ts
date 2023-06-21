@@ -16,11 +16,15 @@ import { NotFoundComponent } from './not-found/not-found.component';
 import { SuccessRedeemComponent } from './success-redeem/success-redeem.component';
 import { SuccessDonateComponent } from './success-donate/success-donate.component';
 import { DetailItemCollectorComponent } from './detail-item-collector/detail-item-collector.component';
+import { ProfileComponent } from './profile/profile.component';
 
 export function SetupRoutes(): Routes {
   const role = localStorage.getItem('role');
-
   const routes: Routes = []
+
+  if (['collector', 'donator'].includes(String(role))) {
+    routes.push({ path: 'profile', component: ProfileComponent })
+  }
 
   if (role === 'collector') {
     routes.push({ path: '', component: HomeCollectorComponent });
