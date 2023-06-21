@@ -25,6 +25,7 @@ import { NotFoundComponent } from './not-found/not-found.component';
 import { SuccessRedeemComponent } from './success-redeem/success-redeem.component';
 import { SuccessDonateComponent } from './success-donate/success-donate.component';
 import { DetailItemCollectorComponent } from './detail-item-collector/detail-item-collector.component';
+import { ProfileComponent } from './profile/profile.component';
 
 @NgModule({
   declarations: [
@@ -48,6 +49,7 @@ import { DetailItemCollectorComponent } from './detail-item-collector/detail-ite
     SuccessRedeemComponent,
     SuccessDonateComponent,
     DetailItemCollectorComponent,
+    ProfileComponent,
   ],
   imports: [
     BrowserModule,
