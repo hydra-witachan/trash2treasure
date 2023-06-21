@@ -9,6 +9,7 @@ export class MySharedService {
   private pointTopUpFormated!: string;
 
   private role: string | null = 'guest';
+  private subCategory!: string;
 
   constructor() {
     this.role = localStorage.getItem("role");
@@ -33,6 +34,10 @@ export class MySharedService {
     this.pointTopUpFormated = data;
   }
 
+  setSubCategory(subCategory: string) {
+    this.subCategory = subCategory;
+  }
+
   getRole(): string {
     return this.role!;
   }
@@ -47,5 +52,9 @@ export class MySharedService {
 
   getPointTopUpFormated(): string {
     return this.pointTopUpFormated;
+  }
+
+  getSubCategory(): string {
+    return this.subCategory;
   }
 }
