@@ -24,6 +24,7 @@ export function SetupRoutes(): Routes {
 
   if (['collector', 'donator'].includes(String(role))) {
     routes.push({ path: 'profile', component: ProfileComponent })
+    routes.push({ path: 'profile/:id', component: ProfileComponent })
   }
 
   if (role === 'collector') {
