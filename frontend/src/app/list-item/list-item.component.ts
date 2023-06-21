@@ -12,6 +12,8 @@ export class ListItemComponent {
   title = "";
   items: any[] = [];
 
+  searchQuery = "";
+
   constructor(private route: ActivatedRoute, private http: HttpClient, private router: Router, public sharedService: MySharedService) { }
 
   ngOnInit() {
@@ -26,5 +28,15 @@ export class ListItemComponent {
   }
   displayItemDetails(item: any) {
     this.router.navigate([`/items/${item.id}`]);
+  }
+
+  onSearchInputChange() {
+    const subCategory = this.route.snapshot.paramMap.get('subCategory');
+    const url = `http://localhost:5000/items?sub_category=${subCategory}&search=${this.searchQuery}`;
+    console.log(url); // Use the URL for your API request
+
+    this.http.get(url).subscribe((response: any) => {
+      this.items = response;
+    }, (error: any) => console.log(error));
   }
 }

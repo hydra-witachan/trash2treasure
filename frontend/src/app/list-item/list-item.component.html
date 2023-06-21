@@ -22,9 +22,12 @@
           ></path>
         </svg>
         <input
+          name="search-form"
           type="search"
           class="w-[450px] p-4 pl-14 text-sm border rounded-full ring-1 focus:ring-blue-500 focus:border-blue-500"
           placeholder="Search Items..."
+          [(ngModel)]="searchQuery"
+          (ngModelChange)="onSearchInputChange()"
         />
       </div>
     </div>
