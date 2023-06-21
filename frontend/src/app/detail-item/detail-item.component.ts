@@ -37,4 +37,9 @@ export class DetailItemComponent {
   submit() {
     this.router.navigate([`/donate/${this.item.id}`]);
   }
+
+  goToProfile() {
+    this.router.navigate([`/profile/${this.item.authorId}`])
+  }
+
 }
