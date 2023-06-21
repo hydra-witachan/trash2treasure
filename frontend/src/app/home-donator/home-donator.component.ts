@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { MySharedService } from '../shared/my-shared-service.service';
 
 type items = {
   name: string,
@@ -40,10 +41,10 @@ export class HomeDonatorComponent {
     {name: "Spray", imgUrl: "../../assets/spray.png"},
     {name: "Plastic Bag", imgUrl: "../../assets/plastic_Bag.png"}
   ]
-  
+
   itemData: items[];
 
-  constructor(private router: Router) {
+  constructor(private router: Router, public sharedService: MySharedService) {
     this.itemData = this.plasticData;
   }
 
@@ -62,6 +63,8 @@ export class HomeDonatorComponent {
   }
 
   navigateToItem(item: string){
+    this.sharedService.setSubCategory(item);
+
     item = item.toLowerCase();
     if(item.includes(" ")) {
       item = item.replace(" ", "-");
