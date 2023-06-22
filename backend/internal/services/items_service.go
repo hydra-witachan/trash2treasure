@@ -62,19 +62,27 @@ func (s *ItemsServiceParams) CreateItem(ctx context.Context, claims dtos.AuthCla
 		return
 	}
 
-	if user.Points < int64(params.NeededAmount) * int64(params.PointsPerItem) {
+	if user.Points < int64(params.NeededAmount)*int64(params.PointsPerItem) {
 		err = responses.NewError().
 			WithError(err).
 			WithMessage("not enough point users").
 			WithCode(http.StatusBadRequest)
 		return
 	}
+
 	user.Points -= int64(params.NeededAmount) * int64(params.PointsPerItem)
+	if err = s.Users.SaveUser(&user); err != nil {
+		err = responses.NewError().
+			WithError(err).
+			WithMessage("Failed to save user's points.").
+			WithCode(http.StatusInternalServerError)
+		return
+	}
 
 	newItem = models.Item{
 		AuthorID:        claims.ID,
-		Category: 	 	 params.Category,
-		SubCategory: 	 params.SubCategory,
+		Category:        params.Category,
+		SubCategory:     params.SubCategory,
 		AuthorName:      claims.FullName,
 		ItemName:        params.ItemName,
 		Description:     params.Description,
